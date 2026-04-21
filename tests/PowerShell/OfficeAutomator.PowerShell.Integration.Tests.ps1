@@ -234,3 +234,89 @@ Describe "OfficeAutomator.Validation.Environment" {
         }
     }
 }
+
+Describe "OfficeAutomator.Logging.Handler" {
+    
+    Context "Write-LogEntry function" {
+        
+        It "writes message to log file" {
+            # ARRANGE
+            $tempLogPath = Join-Path $env:TEMP "Test_OfficeAutomator_$(Get-Random).log"
+            $testMessage = "Test log entry"
+            
+            # ACT
+            Write-LogEntry -Message $testMessage -Level "INFO" -LogPath $tempLogPath
+            
+            # ASSERT
+            $tempLogPath | Should -Exist
+            Get-Content $tempLogPath | Should -Match $testMessage
+            
+            # CLEANUP
+            Remove-Item $tempLogPath -ErrorAction SilentlyContinue
+        }
+        
+        It "includes timestamp in log entry" {
+            # ARRANGE
+            $tempLogPath = Join-Path $env:TEMP "Test_OfficeAutomator_$(Get-Random).log"
+            $testMessage = "Test with timestamp"
+            
+            # ACT
+            Write-LogEntry -Message $testMessage -Level "INFO" -LogPath $tempLogPath
+            
+            # ASSERT
+            $logContent = Get-Content $tempLogPath
+            $logContent | Should -Match "\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"
+            
+            # CLEANUP
+            Remove-Item $tempLogPath -ErrorAction SilentlyContinue
+        }
+        
+        It "includes log level in log entry" {
+            # ARRANGE
+            $tempLogPath = Join-Path $env:TEMP "Test_OfficeAutomator_$(Get-Random).log"
+            
+            # ACT
+            Write-LogEntry -Message "Test" -Level "ERROR" -LogPath $tempLogPath
+            
+            # ASSERT
+            Get-Content $tempLogPath | Should -Match "\[ERROR\]"
+            
+            # CLEANUP
+            Remove-Item $tempLogPath -ErrorAction SilentlyContinue
+        }
+        
+        It "accepts valid log levels (INFO, SUCCESS, WARNING, ERROR)" {
+            # ARRANGE
+            $tempLogPath = Join-Path $env:TEMP "Test_OfficeAutomator_$(Get-Random).log"
+            $levels = @("INFO", "SUCCESS", "WARNING", "ERROR")
+            
+            # ACT & ASSERT
+            foreach ($level in $levels) {
+                { Write-LogEntry -Message "Test" -Level $level -LogPath $tempLogPath } | Should -Not -Throw
+            }
+            
+            # CLEANUP
+            Remove-Item $tempLogPath -ErrorAction SilentlyContinue
+        }
+        
+        It "appends to existing log file instead of overwriting" {
+            # ARRANGE
+            $tempLogPath = Join-Path $env:TEMP "Test_OfficeAutomator_$(Get-Random).log"
+            $firstMessage = "First entry"
+            $secondMessage = "Second entry"
+            
+            # ACT
+            Write-LogEntry -Message $firstMessage -Level "INFO" -LogPath $tempLogPath
+            Write-LogEntry -Message $secondMessage -Level "INFO" -LogPath $tempLogPath
+            
+            # ASSERT
+            $logContent = Get-Content $tempLogPath
+            $logContent -is [array] | Should -Be $true  # Multiple lines
+            $logContent | Should -Contain $firstMessage
+            $logContent | Should -Contain $secondMessage
+            
+            # CLEANUP
+            Remove-Item $tempLogPath -ErrorAction SilentlyContinue
+        }
+    }
+}
