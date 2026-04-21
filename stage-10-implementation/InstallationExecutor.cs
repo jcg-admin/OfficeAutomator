@@ -72,10 +72,28 @@ namespace OfficeAutomator.Core
         // ===== CONSTRUCTORS =====
 
         /// CONSTRUCTOR: InstallationExecutor()
+        /// Default constructor using production implementations
         public InstallationExecutor()
+            : this(
+                new SecurityContextImpl(),
+                new FileSystemImpl(),
+                new ProcessRunnerImpl()
+            )
+        {
+        }
+
+        /// CONSTRUCTOR: InstallationExecutor(dependencies)
+        /// Constructor with dependency injection for testing
+        public InstallationExecutor(
+            ISecurityContext secContext,
+            IFileSystem fileSys,
+            IProcessRunner procRunner)
         {
             currentProgress = 0;
             installationTimer = null;
+            securityContext = secContext ?? new SecurityContextImpl();
+            fileSystem = fileSys ?? new FileSystemImpl();
+            processRunner = procRunner ?? new ProcessRunnerImpl();
         }
 
         // ===== PUBLIC METHODS =====
@@ -216,8 +234,8 @@ namespace OfficeAutomator.Core
                 return false;
             }
 
-            // Check admin rights (mock - real checks UAC elevation)
-            if (!IsRunningAsAdmin())
+            // Check admin rights using ISecurityContext
+            if (!securityContext.IsRunningAsAdmin())
             {
                 config.errorResult = handler.CreateError(
                     "OFF-SYSTEM-203",
@@ -227,13 +245,15 @@ namespace OfficeAutomator.Core
                 return false;
             }
 
-            // Check disk space
-            if (!HasSufficientDiskSpace())
+            // Check disk space using IFileSystem
+            string sysDrive = Path.GetPathRoot(Environment.SystemDirectory);
+            long availableSpace = fileSystem.GetAvailableFreeSpace(sysDrive);
+            if (availableSpace < MIN_DISK_SPACE_BYTES)
             {
                 config.errorResult = handler.CreateError(
                     "OFF-SYSTEM-202",
                     "Insufficient disk space. At least 5 GB free space is required.",
-                    $"Free space below {MIN_DISK_SPACE_BYTES / (1024 * 1024 * 1024)} GB"
+                    $"Free space: {availableSpace / (1024 * 1024 * 1024)} GB (need 5 GB)"
                 );
                 return false;
             }
@@ -351,39 +371,8 @@ namespace OfficeAutomator.Core
             return true;
         }
 
-        /// METHOD: IsRunningAsAdmin() → bool
-        /// 
-        /// Check if process is running with administrator privileges.
-        private bool IsRunningAsAdmin()
-        {
-            // In real implementation: Check Windows security context
-            // For testing: Mock based on environment
-            try
-            {
-                var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
-                var principal = new System.Security.Principal.WindowsPrincipal(identity);
-                return principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
-            }
-            catch
-            {
-                return false; // Assume not admin if check fails
-            }
-        }
-
-        /// METHOD: HasSufficientDiskSpace() → bool
-        /// 
-        /// Check if system drive has at least 5 GB free space.
-        private bool HasSufficientDiskSpace()
-        {
-            try
-            {
-                var drive = new DriveInfo(Path.GetPathRoot(Environment.SystemDirectory));
-                return drive.AvailableFreeSpace >= MIN_DISK_SPACE_BYTES;
-            }
-            catch
-            {
-                return false; // Assume insufficient if check fails
-            }
-        }
+        // ===== NO PRIVATE METHODS (All functionality via DI) =====
+        // Previous methods IsRunningAsAdmin() and HasSufficientDiskSpace()
+        // are now handled by ISecurityContext and IFileSystem interfaces
     }
 }
