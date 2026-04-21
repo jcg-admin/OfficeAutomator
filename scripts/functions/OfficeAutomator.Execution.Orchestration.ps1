@@ -35,13 +35,20 @@ function Invoke-OfficeInstallation {
     .PARAMETER Configuration
         Configuration object containing version, language, excluded apps
     
+    .PARAMETER LogPath
+        Full path to log file for operation logging
+    
     .OUTPUTS
         [bool] $true if successful, $false if validation/installation failed
     #>
     
     param(
         [Parameter(Mandatory = $true)]
-        $Configuration
+        $Configuration,
+        
+        [Parameter(Mandatory = $true)]
+        [ValidateScript({ -not [string]::IsNullOrWhiteSpace($_) })]
+        [string]$LogPath
     )
     
     try {
@@ -76,16 +83,37 @@ function Invoke-ValidationStep {
     .SYNOPSIS
         Execute configuration validation (UC-004)
     
+    .DESCRIPTION
+        Validates the provided configuration using ConfigValidator C# class.
+        Checks all required settings and returns validation result.
+    
     .PARAMETER Configuration
-        Configuration object to validate
+        Configuration object containing version, language, excluded apps
+    
+    .PARAMETER LogPath
+        Full path to log file for operation logging
     
     .OUTPUTS
-        [bool] $true if valid, $false otherwise
+        [bool] $true if validation passed, $false otherwise
+    
+    .NOTES
+        Implements UC-004 (Configuration Validation)
+        Creates and executes ConfigValidator.Execute() method
+        All errors are logged and function returns false on failure
+    
+    .EXAMPLE
+        PS> $result = Invoke-ValidationStep -Configuration $config -LogPath "$env:TEMP\install.log"
+        PS> $result
+        True
     #>
     
     param(
         [Parameter(Mandatory = $true)]
-        $Configuration
+        $Configuration,
+        
+        [Parameter(Mandatory = $true)]
+        [ValidateScript({ -not [string]::IsNullOrWhiteSpace($_) })]
+        [string]$LogPath
     )
     
     try {
@@ -115,16 +143,39 @@ function Invoke-InstallationStep {
     .SYNOPSIS
         Execute Office installation (UC-005)
     
+    .DESCRIPTION
+        Executes the Office installation using InstallationExecutor C# class.
+        Orchestrates the actual installation process and returns result.
+    
     .PARAMETER Configuration
-        Configuration object for installation
+        Configuration object with installation settings
+    
+    .PARAMETER LogPath
+        Full path to log file for operation logging
     
     .OUTPUTS
-        [bool] $true if successful, $false otherwise
+        [bool] $true if installation successful, $false otherwise
+    
+    .NOTES
+        Implements UC-005 (Installation & Rollback)
+        Creates and executes InstallationExecutor.Execute() method
+        All errors are logged
+        
+        On failure, caller should invoke RollbackExecutor for cleanup
+    
+    .EXAMPLE
+        PS> $result = Invoke-InstallationStep -Configuration $config -LogPath "$env:TEMP\install.log"
+        PS> $result
+        True
     #>
     
     param(
         [Parameter(Mandatory = $true)]
-        $Configuration
+        $Configuration,
+        
+        [Parameter(Mandatory = $true)]
+        [ValidateScript({ -not [string]::IsNullOrWhiteSpace($_) })]
+        [string]$LogPath
     )
     
     try {
