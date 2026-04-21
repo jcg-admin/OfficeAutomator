@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Xml.Linq;
 
-namespace OfficeAutomator.Core
+namespace OfficeAutomator.Core.Validation
 {
     /// CLASS: ConfigGenerator
     /// 

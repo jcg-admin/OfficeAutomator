@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace OfficeAutomator.Core
+namespace OfficeAutomator.Core.Installation
 {
     /// CLASS: InstallationExecutor
     /// 

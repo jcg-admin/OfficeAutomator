@@ -1,5 +1,5 @@
 using Xunit;
-using OfficeAutomator.Core;
+using OfficeAutomator.Core.Validation;
 using System;
 using System.Diagnostics;
 

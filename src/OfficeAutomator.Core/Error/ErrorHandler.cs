@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OfficeAutomator.Core
+namespace OfficeAutomator.Core.Error
 {
     /// CLASS: ErrorHandler
     /// 

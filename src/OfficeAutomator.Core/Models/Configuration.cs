@@ -1,6 +1,6 @@
 using System;
 
-namespace OfficeAutomator.Core
+namespace OfficeAutomator.Core.Models
 {
     /// CLASS: Configuration
     /// 

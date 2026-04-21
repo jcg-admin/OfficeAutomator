@@ -1,5 +1,5 @@
 using Xunit;
-using OfficeAutomator.Core;
+using OfficeAutomator.Core.Models;
 using System;
 
 namespace OfficeAutomator.Tests

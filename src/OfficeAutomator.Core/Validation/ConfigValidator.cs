@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace OfficeAutomator.Core
+namespace OfficeAutomator.Core.Validation
 {
     /// CLASS: ConfigValidator
     /// 

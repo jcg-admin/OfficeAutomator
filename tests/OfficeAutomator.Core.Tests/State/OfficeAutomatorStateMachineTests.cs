@@ -1,5 +1,5 @@
 using Xunit;
-using OfficeAutomator.Core;
+using OfficeAutomator.Core.State;
 using System;
 using System.Collections.Generic;
 
