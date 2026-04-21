@@ -1,0 +1,285 @@
+================================================================================
+PROYECTO: OfficeAutomator
+Versión: 1.0.0 (Planificación + Infraestructura)
+Estado: Estructura completa lista para desarrollo
+Fecha: 2026-04-21
+================================================================================
+
+ESTRUCTURA FINAL DEL PROYECTO
+================================================================================
+
+OfficeAutomator/
+│
+├─── DOCUMENTACIÓN RAÍZ
+│   ├── README.md                          ← Descripción general
+│   ├── ESTRUCTURA_PROYECTO.txt             ← Este archivo
+│   │
+│
+├─── docs/                                 ← Documentación Arquitectónica (OPCIÓN B)
+│   ├── INDEX.md                           ← Mapa maestro de navegación
+│   │
+│   ├── introduction/                      ← Section 1: Qué es
+│   ├── requirements/                      ← Section 1.1: Qué hace
+│   │   ├── use-cases-matrix.md
+│   │   ├── uc-001-select-version/
+│   │   ├── uc-002-select-language/
+│   │   ├── uc-003-exclude-applications/
+│   │   ├── uc-004-validate-integrity/
+│   │   └── uc-005-install-office/
+│   │
+│   ├── quality-goals/                     ← Section 1.2: Metas
+│   ├── stakeholders/                      ← Section 1.3: Actores
+│   ├── constraints/                       ← Section 2: Limitaciones
+│   ├── context-scope/                     ← Section 3: Contexto
+│   ├── solution-strategy/                 ← Section 4: Estrategia
+│   ├── architecture/                      ← Sections 5-7,9: Diseño
+│   ├── crosscutting-concepts/             ← Section 8: Patrones
+│   ├── quality-scenarios/                 ← Section 10: Tests
+│   ├── risks-technical-debt/              ← Section 11: Riesgos
+│   ├── glossary/                          ← Section 12: Términos
+│   │
+│   ├── _archive/                          ← Documentación antigua
+│   ├── _methodology/                      ← Procesos, convenciones
+│   └── _tools/                            ← Ejemplos, templates
+│
+│
+├─── .claude/                              ← Configuración Claude Code (COPIADO DE THYROX)
+│   ├── CLAUDE.md                          ← Contexto persistente
+│   ├── ARCHITECTURE.md                    ← Arquitectura Claude Code
+│   ├── settings.json                      ← Configuración
+│   │
+│   ├── agents/                            ← 28 agentes especializados
+│   │   ├── agentic-reasoning.md
+│   │   ├── agentic-validator.md
+│   │   ├── deep-dive.md
+│   │   ├── deep-review.md
+│   │   ├── diagrama-ishikawa.md
+│   │   ├── task-executor.md
+│   │   ├── task-planner.md
+│   │   └── ...
+│   │
+│   ├── commands/                          ← Comandos disponibles
+│   │   ├── analyze.md
+│   │   ├── audit.md
+│   │   ├── constraints.md
+│   │   ├── decompose.md
+│   │   ├── design.md
+│   │   ├── discover.md
+│   │   ├── execute.md
+│   │   └── ...
+│   │
+│   ├── references/                        ← Referencias documentación
+│   │   └── (47+ documentos de metodología y plataforma)
+│   │
+│   ├── rules/                             ← Reglas y validaciones
+│   │   └── (reglas de negocio)
+│   │
+│   ├── scripts/                           ← Scripts ejecutables
+│   │   └── (scripts de infraestructura)
+│   │
+│   └── skills/                            ← 70+ skills especializados
+│       ├── ba-* (6 skills de BA)
+│       ├── bpa-* (6 skills de BPA)
+│       ├── cp-* (7 skills de CP)
+│       ├── db-* (2 skills de BD)
+│       ├── dmaic-* (5 skills de DMAIC)
+│       ├── frontend-* (2 skills de frontend)
+│       ├── lean-* (5 skills de Lean)
+│       ├── pdca-* (4 skills de PDCA)
+│       ├── pm-* (5 skills de PM)
+│       ├── pps-* (6 skills de PPS)
+│       ├── python-* (1 skill)
+│       ├── rm-* (5 skills de RM)
+│       ├── rup-* (5 skills de RUP)
+│       └── sp-* (5 skills de SP)
+│
+│
+├─── .thyrox/                              ← Estado persistente del proyecto (COPIADO DE THYROX)
+│   ├── context/                           ← Estado de sesión
+│   │   ├── work/                          ← Work Packages
+│   │   │   └── YYYY-MM-DD-HH-MM-SS-nombre/
+│   │   ├── decisions/                     ← ADRs (Architecture Decision Records)
+│   │   ├── errors/                        ← Tracking de errores
+│   │   ├── project-state.md               ← Metadata del proyecto
+│   │   ├── focus.md                       ← Dirección actual
+│   │   └── now.md                         ← Estado persistente (YAML)
+│   │
+│   ├── registry/                          ← Fuente de verdad
+│   │   ├── agents/                        ← Definiciones YML de agentes
+│   │   ├── methodologies/                 ← 11 metodologías
+│   │   ├── bootstrap.py                   ← Generador de agentes
+│   │   └── _generator.sh                  ← Generador de skills
+│   │
+│   └── guidelines/                        ← Guidelines de negocio
+│
+│
+├─── Functions/                            ← Módulo PowerShell (PRÓXIMO)
+│   ├── Private/                           ← Funciones privadas
+│   │   ├── Invoke-InputValidation.ps1
+│   │   ├── Invoke-IntegrityCheck.ps1
+│   │   ├── Write-Log.ps1
+│   │   └── ...
+│   │
+│   └── Public/                            ← Funciones públicas
+│       ├── Invoke-OfficeAutomator.ps1
+│       ├── Invoke-OfficeAutomatorGUI.ps1
+│       ├── Get-OfficeDeploymentTool.ps1
+│       └── ...
+│
+│
+├─── Tools/                                ← Utilidades (PRÓXIMO)
+│   ├── Reverse/                           ← Herramientas de reversa
+│   └── Helpers/                           ← Scripts helper
+│
+│
+├─── Logs/                                 ← Logs de ejecución (PRÓXIMO)
+│   └── .gitkeep
+│
+│
+├─── Tests/                                ← Tests automatizados (PRÓXIMO)
+│   ├── Unit/
+│   └── Integration/
+│
+│
+├─── .github/                              ← Configuración GitHub (PRÓXIMO)
+│   └── workflows/
+│       ├── validate.yml                   ← Validación automática
+│       └── (otros workflows)
+│
+│
+├─── Configuración de módulo (PRÓXIMO)
+│   ├── OfficeAutomator.psd1               ← Manifiesto del módulo
+│   ├── OfficeAutomator.psm1               ← Cargador de módulo
+│   └── Install-Office.ps1                 ← Script ejecutable
+│
+│
+├─── Metadata del proyecto (PRÓXIMO)
+│   ├── ROADMAP.md                         ← Plan maestro
+│   ├── CHANGELOG.md                       ← Historial de cambios
+│   ├── DECISIONS.md                       ← Índice de decisiones
+│   ├── LICENSE                            ← MIT License
+│   └── .gitignore                         ← Archivos ignorados
+│
+│
+└─── Infraestructura del repositorio (PRÓXIMO)
+    ├── .git/                              ← Repositorio Git
+    └── .gitattributes                     ← Atributos de Git
+
+================================================================================
+ESTADO DE COMPLETITUD
+================================================================================
+
+COMPLETADO (100%):
+  Estructura de documentación (docs/ con 12 cajones planos)
+  Configuración Claude Code (.claude/ copiado de thyrox)
+  Sistema de estado persistente (.thyrox/ copiado de thyrox)
+  README.md principal
+
+EN PROGRESO:
+  Documentación de requirements/ (UCs)
+  Análisis de flujos
+
+PRÓXIMO:
+  Contenido de docs/requirements/ (UCs detallados)
+  Módulo PowerShell (Functions/)
+  Configuración de módulo (.psd1, .psm1)
+  Tests automatizados
+  GitHub workflows
+
+================================================================================
+CONVENCIONES DEL PROYECTO
+================================================================================
+
+DOCUMENTACIÓN:
+  - Sin INDEX.md (se vuelve obsoleto)
+  - Sin emojis ni iconos
+  - Sin README.md en carpetas de código
+  - Frontmatter YAML en documentos principales
+
+CÓDIGO POWERSHELL:
+  - Estructura modular (Functions/Public, Functions/Private)
+  - Convenciones: Verb-Noun (Get-, Invoke-, Write-)
+  - Validación robusta de input
+  - Logging completo
+  - Idempotencia garantizada
+
+COMMITS:
+  - Convencionales: feat(scope): description
+  - Scopes: functions, validation, logging, docs, tests, chore
+  - Ejemplos:
+    feat(functions): agregar Invoke-InputValidation
+    fix(validation): corregir validación de idioma
+    docs(requirements): documentar UC-001
+    test(scenarios): agregar tests de idempotencia
+
+WORK PACKAGES:
+  - Nomenclatura: YYYY-MM-DD-HH-MM-SS-nombre
+  - Ubicación: .thyrox/context/work/
+  - Ejemplo: 2026-04-21-10-30-00-uc-documentation
+
+STAGES (Simplificados de THYROX):
+  1. DISCOVER      - Análisis, definición del problema
+  2. DESIGN/SPEC   - Diseño, especificación de requisitos
+  3. PLAN          - Planificación de implementación
+  4. IMPLEMENT     - Implementación en código
+  5. TEST/VALIDATE - Tests, validación, QA
+  6. FINALIZE      - Documentación, release
+
+================================================================================
+PRÓXIMOS PASOS (Orden recomendado)
+================================================================================
+
+FASE 1 - REQUIREMENTS DOCUMENTATION (Esta semana)
+  1. Crear use-cases-matrix.md
+  2. Documentar UC-001: Select Version
+  3. Documentar UC-002: Select Language
+  4. Documentar UC-003: Exclude Applications
+  5. Documentar UC-004: Validate Integrity
+  6. Documentar UC-005: Install Office
+
+FASE 2 - ARCHITECTURE (Semana 2)
+  1. Diseñar módulo PowerShell
+  2. Crear ADRs para decisiones técnicas
+  3. Documentar flujos de validación
+  4. Documentar errores corregidos de MSOI
+
+FASE 3 - IMPLEMENTATION (Semana 3-4)
+  1. Crear Functions/Public/*
+  2. Crear Functions/Private/*
+  3. Crear OfficeAutomator.psd1 y .psm1
+  4. Crear Install-Office.ps1
+
+FASE 4 - TESTING & FINALIZATION (Semana 5)
+  1. Crear tests automatizados
+  2. Crear GitHub workflows
+  3. Documentar guías de uso
+  4. Primer release v1.0.0
+
+================================================================================
+DIFERENCIAS vs MSOI
+================================================================================
+
+MSOI (Anterior):
+  - Sin validación robusta de input
+  - Sin verificación de integridad
+  - No idempotente
+  - Logging limitado
+  - Sin limpieza de temporales
+  - Timeouts insuficientes
+  - Documentación mínima
+  - Estructura monolítica
+
+OfficeAutomator (Actual):
+  CORRIGE:
+  + Validación robusta de input
+  + Verificación SHA256 de archivos
+  + Idempotencia garantizada
+  + Logging completo
+  + Limpieza automática de temporales
+  + Timeouts configurables
+  + Documentación arquitectónica completa
+  + Estructura modular
+
+================================================================================
+FIN DE ESTRUCTURA
+================================================================================

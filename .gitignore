@@ -1,0 +1,40 @@
+# Build and output
+*.pyc
+__pycache__/
+*.egg-info/
+dist/
+build/
+*.nupkg
+bin/
+obj/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary
+temp/
+tmp/
+*.tmp
+
+# Environment
+.env
+.env.local
+
+# PSScriptAnalyzer
+PSScriptAnalyzerSettings.psd1
+
+# Test coverage
+coverage/
+.coverage

@@ -1,0 +1,133 @@
+================================================================================
+PROYECTO: OfficeAutomator
+Versión: 1.0.0 (Planificación)
+Creado: 2026-04-21
+================================================================================
+
+ESTRUCTURA COMPLETA DEL PROYECTO
+================================================================================
+
+OfficeAutomator/
+├── README.md                                ← Descripción general del proyecto
+├── ESTRUCTURA_PROYECTO.txt                  ← Este archivo
+│
+├── docs/                                    ← Documentación Arquitectónica (OPCIÓN B)
+│   ├── INDEX.md                             ← MAPA MAESTRO - Navegación principal
+│   │
+│   ├── introduction/                        ← Section 1: Qué es el proyecto
+│   ├── requirements/                        ← Section 1.1: Qué hace
+│   ├── quality-goals/                       ← Section 1.2: Qué tan bien (metas)
+│   ├── stakeholders/                        ← Section 1.3: Para quién (actores)
+│   ├── constraints/                         ← Section 2: Qué nos limita
+│   ├── context-scope/                       ← Section 3: Dónde se sitúa
+│   ├── solution-strategy/                   ← Section 4: Cómo lo resolvemos
+│   ├── architecture/                        ← Sections 5-7,9: Diseño + componentes
+│   ├── crosscutting-concepts/               ← Section 8: Patrones y principios
+│   ├── quality-scenarios/                   ← Section 10: Tests y validaciones
+│   ├── risks-technical-debt/                ← Section 11: Riesgos y deuda técnica
+│   ├── glossary/                            ← Section 12: Vocabulario
+│   │
+│   ├── _archive/                            ← Documentación antigua/archivada
+│   ├── _methodology/                        ← Procesos, convenciones, frameworks
+│   └── _tools/                              ← Ejemplos, templates, guías
+│
+├── Functions/                               ← PRÓXIMO: Módulo PowerShell
+│   ├── Private/                             ← Funciones privadas (uso interno)
+│   └── Public/                              ← Funciones públicas (API expuesta)
+│
+├── Tools/                                   ← PRÓXIMO: Utilidades y helpers
+│
+├── Logs/                                    ← PRÓXIMO: Logs de ejecución
+│
+├── Tests/                                   ← PRÓXIMO: Tests unitarios/funcionales
+│
+├── OfficeAutomator.psd1                     ← PRÓXIMO: Manifiesto del módulo
+├── OfficeAutomator.psm1                     ← PRÓXIMO: Cargador de funciones
+├── Install-Office.ps1                       ← PRÓXIMO: Script ejecutable
+│
+├── CHANGELOG.md                             ← PRÓXIMO: Historial de versiones
+├── LICENSE                                  ← PRÓXIMO: Licencia MIT
+└── .gitignore                               ← PRÓXIMO: Archivos a ignorar en git
+
+================================================================================
+ESTADO DE LA ESTRUCTURA
+================================================================================
+
+✅ COMPLETADO:
+  - Estructura de directorios (15 cajones planos)
+  - INDEX.md (Mapa maestro de navegación)
+  - README.md (Descripción del proyecto)
+
+⚪ PRÓXIMOS PASOS:
+  - Crear contenido en dominios (docs/*)
+  - Crear módulo PowerShell (Functions/Public, Private)
+  - Crear script ejecutable (Install-Office.ps1)
+  - Crear configuración de módulo (OfficeAutomator.psd1/psm1)
+  - Crear tests
+
+================================================================================
+PRINCIPIOS DE ESTRUCTURA (OPCIÓN B)
+================================================================================
+
+1. PLANO: Todos los cajones (carpetas) están al MISMO nivel
+2. POR DOMINIO: Cada cajon representa UN dominio único
+3. SIN META-CONTENEDORES: No hay carpetas que contengan otros cajones
+4. AUTOEXPLICATIVO: Los nombres describen su contenido
+5. JERARQUÍA INTERNA LIBRE: Dentro de cada cajon se puede organizar libremente
+
+================================================================================
+CÓMO NAVEGAR LA DOCUMENTACIÓN
+================================================================================
+
+PUNTO DE ENTRADA: docs/INDEX.md
+
+Rutas por rol:
+  - PM: introduction → requirements → quality-goals → risks-technical-debt
+  - Arquitecto: introduction → solution-strategy → architecture → constraints
+  - Developer: requirements → architecture → crosscutting-concepts → quality-scenarios
+  - QA: requirements → quality-scenarios → glossary
+
+================================================================================
+COMPARACIÓN CON MSOI (PROYECTO ANTERIOR)
+================================================================================
+
+ERRORES CORREGIDOS EN OfficeAutomator:
+
+✅ Validación robusta de entrada
+✅ Verificación de integridad SHA256
+✅ Idempotencia garantizada
+✅ Logging completo en CLI y GUI
+✅ Limpieza automática de temporales
+✅ Timeouts configurables y suficientes
+✅ Documentación arquitectónica completa
+✅ Estructura modular (separación de funciones)
+
+================================================================================
+PRÓXIMOS PASOS
+================================================================================
+
+1. Llenar contenido en dominios (docs/*)
+   - Empezar por introduction/ y requirements/
+   - Luego architecture/ con análisis de errores de MSOI
+   
+2. Crear Functions/Public con funciones principales
+   - Invoke-OfficeAutomator
+   - Invoke-OfficeAutomatorGUI
+   - Get-OfficeDeploymentTool
+   - etc.
+
+3. Crear Functions/Private con funciones de soporte
+   - Validación de entrada
+   - Manejo de errores
+   - Logging
+   - etc.
+
+4. Crear Install-Office.ps1 como punto de entrada
+
+5. Crear OfficeAutomator.psd1 y psm1
+
+6. Crear tests de validación
+
+================================================================================
+FIN DE ESTRUCTURA
+================================================================================
