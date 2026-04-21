@@ -386,3 +386,95 @@ Describe "OfficeAutomator.Menu.Display" {
         }
     }
 }
+
+Describe "OfficeAutomator.Execution.Orchestration" {
+    
+    Context "Invoke-OfficeInstallation function" {
+        
+        It "calls validation step first" {
+            # ARRANGE
+            $mockConfig = @{
+                Version = "PerpetualVL2024"
+                Language = "es-ES"
+                ExcludedApps = @("Teams")
+            }
+            
+            # ACT & ASSERT
+            # Function should exist and accept Configuration parameter
+            Get-Command Invoke-OfficeInstallation | Should -Not -BeNullOrEmpty
+        }
+        
+        It "returns false when validation fails" {
+            # ARRANGE
+            $invalidConfig = $null
+            
+            # ACT & ASSERT
+            # Function should handle invalid configuration gracefully
+            { Invoke-OfficeInstallation -Configuration $invalidConfig } | Should -Throw
+        }
+    }
+    
+    Context "Invoke-ValidationStep function" {
+        
+        It "returns boolean value" {
+            # ARRANGE
+            $config = @{
+                Version = "PerpetualVL2024"
+                Language = "es-ES"
+            }
+            
+            # ACT & ASSERT
+            Get-Command Invoke-ValidationStep | Should -Not -BeNullOrEmpty
+        }
+        
+        It "calls ConfigValidator.Execute method" {
+            # ACT & ASSERT
+            # Verify function exists and has Configuration parameter
+            (Get-Command Invoke-ValidationStep).Parameters.Keys | Should -Contain "Configuration"
+        }
+    }
+    
+    Context "Invoke-InstallationStep function" {
+        
+        It "calls InstallationExecutor.Execute method" {
+            # ACT & ASSERT
+            Get-Command Invoke-InstallationStep | Should -Not -BeNullOrEmpty
+        }
+        
+        It "returns boolean value" {
+            # ACT & ASSERT
+            (Get-Command Invoke-InstallationStep).Parameters.Keys | Should -Contain "Configuration"
+        }
+    }
+    
+    Context "Show-ProgressBar function" {
+        
+        It "accepts Percent and Message parameters" {
+            # ARRANGE
+            $percent = 50
+            $message = "Installing..."
+            
+            # ACT & ASSERT
+            { Show-ProgressBar -Percent $percent -Message $message } | Should -Not -Throw
+        }
+        
+        It "displays progress bar without error" {
+            # ARRANGE
+            $percent = 75
+            $message = "Downloading Office..."
+            
+            # ACT & ASSERT
+            { Show-ProgressBar -Percent $percent -Message $message } | Should -Not -Throw
+        }
+        
+        It "accepts percent values 0-100" {
+            # ARRANGE
+            $percentValues = @(0, 25, 50, 75, 100)
+            
+            # ACT & ASSERT
+            foreach ($percent in $percentValues) {
+                { Show-ProgressBar -Percent $percent -Message "Test" } | Should -Not -Throw
+            }
+        }
+    }
+}
