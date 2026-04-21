@@ -74,9 +74,9 @@ function Invoke-RollbackOnFailure {
     try {
         Write-LogEntry "Starting rollback..." -Level "WARNING" -LogPath $LogPath
         
-        # Create RollbackExecutor and execute
-        $rollback = New-Object OfficeAutomator.Core.Installation.RollbackExecutor
-        $result = $rollback.Execute()
+        # Create RollbackExecutor and execute with Configuration
+        $rollback = [OfficeAutomator.Core.Installation.RollbackExecutor]::new()
+        $result = $rollback.Execute($Configuration)
         
         if ($result) {
             Write-LogEntry "Rollback completed successfully" -Level "SUCCESS" -LogPath $LogPath
