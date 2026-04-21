@@ -1,6 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using OfficeAutomator.Core.Models;
+using OfficeAutomator.Core.Error;
+using OfficeAutomator.Core.Infrastructure;
 
 namespace OfficeAutomator.Core.Installation
 {
@@ -68,6 +71,15 @@ namespace OfficeAutomator.Core.Installation
 
         /// Stopwatch for timeout monitoring
         private Stopwatch installationTimer;
+
+        /// Dependency: Security context for privilege verification
+        private ISecurityContext securityContext;
+
+        /// Dependency: File system operations
+        private IFileSystem fileSystem;
+
+        /// Dependency: Process runner for setup.exe execution
+        private IProcessRunner processRunner;
 
         // ===== CONSTRUCTORS =====
 

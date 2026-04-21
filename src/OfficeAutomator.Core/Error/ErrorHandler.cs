@@ -1,4 +1,5 @@
 using System;
+using OfficeAutomator.Core.Models;
 using System.Collections.Generic;
 
 namespace OfficeAutomator.Core.Error

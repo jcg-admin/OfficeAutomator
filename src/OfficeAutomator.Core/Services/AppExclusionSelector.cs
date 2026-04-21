@@ -1,4 +1,6 @@
 using System;
+using OfficeAutomator.Core.Models;
+using OfficeAutomator.Core.Error;
 using System.Collections.Generic;
 using System.Linq;
 

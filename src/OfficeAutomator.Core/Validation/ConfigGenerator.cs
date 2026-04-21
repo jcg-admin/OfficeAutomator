@@ -1,4 +1,5 @@
 using System;
+using OfficeAutomator.Core.Models;
 using System.IO;
 using System.Xml.Linq;
 
