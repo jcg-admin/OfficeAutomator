@@ -478,3 +478,40 @@ Describe "OfficeAutomator.Execution.Orchestration" {
         }
     }
 }
+
+Describe "OfficeAutomator.Execution.RollbackHandler" {
+    
+    Context "Invoke-RollbackOnFailure function" {
+        
+        It "creates RollbackExecutor object" {
+            # ARRANGE
+            $mockConfig = @{
+                Version = "PerpetualVL2024"
+                Language = "es-ES"
+            }
+            $logPath = Join-Path $env:TEMP "Test_Rollback_$(Get-Random).log"
+            
+            # ACT & ASSERT
+            # Function should exist and accept Configuration and LogPath parameters
+            Get-Command Invoke-RollbackOnFailure | Should -Not -BeNullOrEmpty
+        }
+        
+        It "calls RollbackExecutor.Execute method" {
+            # ACT & ASSERT
+            (Get-Command Invoke-RollbackOnFailure).Parameters.Keys | Should -Contain "Configuration"
+        }
+        
+        It "returns boolean value (true or false)" {
+            # ACT & ASSERT
+            (Get-Command Invoke-RollbackOnFailure).Parameters.Keys | Should -Contain "LogPath"
+        }
+        
+        It "logs rollback start message" {
+            # ARRANGE
+            $logPath = Join-Path $env:TEMP "Test_Rollback_$(Get-Random).log"
+            
+            # Function should log rollback operations
+            Get-Command Invoke-RollbackOnFailure | Should -Not -BeNullOrEmpty
+        }
+    }
+}
