@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>OfficeAutomator.Core</AssemblyName>
+    <RootNamespace>OfficeAutomator.Core</RootNamespace>
+    <Version>1.0.0</Version>
+    <Description>Office automation library with semantic folder structure</Description>
+    <Authors>Nestor Monroy</Authors>
+    <PackageProjectUrl>https://github.com/NestorMonroy/OfficeAutomator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/NestorMonroy/OfficeAutomator</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- No external dependencies required for core library -->
+  </ItemGroup>
+
+</Project>
