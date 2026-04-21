@@ -79,6 +79,7 @@ function Test-CoreDllExists {
     
     .PARAMETER DllPath
         Full path to OfficeAutomator.Core.dll
+        Must be non-empty string
     
     .OUTPUTS
         [bool] $true if file exists, $false otherwise
@@ -86,6 +87,7 @@ function Test-CoreDllExists {
     
     param(
         [Parameter(Mandatory = $true)]
+        [ValidateScript({ -not [string]::IsNullOrWhiteSpace($_) })]
         [string]$DllPath
     )
     
@@ -111,8 +113,8 @@ function Test-DotNetRuntime {
     try {
         $frameworkDesc = [System.Runtime.InteropServices.RuntimeInformation]::FrameworkDescription
         
-        # Check for .NET 8.0, 9.0, or later
-        if ($frameworkDesc -match "\.NET (\d+)") {
+        # More robust pattern handles ".NET 8", ".NET 9", ".NET Core 8.0", etc.
+        if ($frameworkDesc -match "\.NET(?:\s+Core)?\s+(\d+)") {
             $version = [int]$matches[1]
             return $version -ge 8
         }
@@ -126,6 +128,50 @@ function Test-DotNetRuntime {
 }
 
 function Test-PrerequisitesMet {
+    <#
+    .SYNOPSIS
+        Validate all prerequisites are met for OfficeAutomator
+    
+    .DESCRIPTION
+        Validates that the current environment meets all requirements:
+        1. Running as administrator
+        2. .NET 8.0+ runtime installed
+        3. Core DLL exists at specified path
+        
+        Reports which prerequisites failed for debugging.
+    
+    .PARAMETER DllPath
+        Full path to OfficeAutomator.Core.dll
+        Must be non-empty string
+    
+    .EXAMPLE
+        PS> Test-PrerequisitesMet -DllPath ".\OfficeAutomator.Core.dll"
+        ✓ All prerequisites validated
+        True
+    
+    .EXAMPLE
+        PS> Test-PrerequisitesMet -DllPath ".\fake.dll"
+        ERROR: Core DLL not found at: .\fake.dll (Error Code: 2001)
+        False
+    
+    .INPUTS
+        [string] DLL file path
+    
+    .OUTPUTS
+        [bool] $true if all prerequisites met, $false otherwise
+    
+    .NOTES
+        Author: Claude (AI Assistant)
+        Date: 2026-04-21
+        Version: 1.0
+        
+        ERROR CODES:
+          - 2001: Prerequisites validation failed (admin, .NET, or DLL issue)
+        
+        RELATED SCRIPTS:
+          - OfficeAutomator.CoreDll.Loader.ps1 (called after this succeeds)
+          - OfficeAutomator.PowerShell.Script.ps1 (calls this during Phase 1)
+    #>
     <#
     .SYNOPSIS
         Validate all prerequisites are met for OfficeAutomator
