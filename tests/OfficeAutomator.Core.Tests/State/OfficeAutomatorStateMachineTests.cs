@@ -341,6 +341,21 @@ namespace OfficeAutomator.Tests
                 "INSTALLING"
             };
 
+            // Success completion or error paths
+            if (targetState == "INSTALL_COMPLETE")
+            {
+                successPath.Add("INSTALL_COMPLETE");
+            }
+            else if (targetState == "INSTALL_FAILED")
+            {
+                successPath.Add("INSTALL_FAILED");
+            }
+            else if (targetState == "ROLLED_BACK")
+            {
+                successPath.Add("INSTALL_FAILED");
+                successPath.Add("ROLLED_BACK");
+            }
+
             var result = new List<string>();
             foreach (var state in successPath)
             {
