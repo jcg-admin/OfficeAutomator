@@ -17,8 +17,8 @@ echo "Installing .NET SDK 8.0..."
 export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 export DOTNET_CLI_TELEMETRY_OPTOUT=true
 
-curl -fsSL https://dot.net/v1/dotnet-install.sh | \
-    bash -s -- --channel 8.0 --install-dir "$HOME/.dotnet" --skip-user-profile
+curl -fsSL https://builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.sh | \
+    bash -s -- --channel 8.0 --install-dir "$HOME/.dotnet"
 
 # Set environment
 export DOTNET_ROOT="$HOME/.dotnet"
