@@ -1,12 +1,12 @@
 ```yml
 type: Estado Actual del Proyecto
-updated_at: 2026-04-22 08:38:14
+updated_at: 2026-04-22 12:50:00
 work_package: 2026-04-22-07-59-20-documentation-audit
-stage: Phase 2 — BASELINE (IN PROGRESS)
+stage: Phase 2 — BASELINE (GATE EVALUATION COMPLETED)
 phase: Phase 2 — BASELINE
 flow: null
 calibration_status: APPROVED SP-01 (68% calibration ratio, Bash-verified)
-baseline_status: Metrics defined — Ready for Phase 3 ANALYZE
+baseline_status: GATE BLOQUEADO — Realismo Performativo (31.8% ratio)
 ```
 
 # NOW.md - Estado Actual
@@ -45,29 +45,42 @@ baseline_status: Metrics defined — Ready for Phase 3 ANALYZE
 - ✅ documentation-audit-calibration-results.md (47.5% ratio, CAD domain analysis)
 - ✅ documentation-audit-calibration-results-CORRECTED.md (68% ratio, Bash-verified, SP-01 APROBADO)
 
-**Sesión Actual (11:25+): Phase 2 BASELINE — Recopilación de datos y definición de métricas**
+**Sesión Actual (12:50+): Phase 2 BASELINE — Agentic Calibration Workflow Executed**
 
-**Status:** ⏳ **PHASE 2 BASELINE — Baseline metrics defined**
-- Recopilados datos sobre estado actual de documentación
-- Definidas baseline metrics (cobertura, accesibilidad, completitud)
-- Establecidos success criteria para closure del WP
-- 5 risks linked to documentation improvement targets
+**Status:** ❌ **GATE PHASE 2 → PHASE 3 BLOQUEADO** — Realismo Performativo Detectado
 
-**Baseline Metrics (Current State):**
-- Coverage: 70% (13/23 requisitos) — Target: 90%+
-- Accessibility: 50% (limited navigation) — Target: 80%+
-- Completitud: 57% (average) — Target: 85%+
-- User-facing patterns visibility: 0% (Phase 12 patterns in .thyrox/) — Target: 100%
+**Agentic Calibration Workflow Completed:**
 
-**Deliverables (Phase 2 + Phase 1 + Calibration):**
-- ✅ documentation-audit-analysis.md
-- ✅ documentation-audit-risk-register.md
-- ✅ documentation-structure-option-b-analysis.md
-- ✅ objective-coverage-alignment-analysis.md
-- ✅ documentation-audit-calibration-results-CORRECTED.md (SP-01 APROBADO 68%)
-- ✅ documentation-baseline-metrics.md (Phase 2 baseline + success criteria)
+*Deep-Dive Agent (a75df3e6240c7c65e) — Análisis Adversarial:*
+- 5 contradicciones numéricas identificadas
+- 7 saltos lógicos sin derivación
+- 3 engaños estructurales (realismo performativo)
+- Veredicto: Apariencia de rigor cuantitativo sin validación
 
-**Next Step:** Avanzar a Phase 3 ANALYZE (diagnose root causes of documentation gaps)
+*Agentic-Reasoning Agent (acc2d0adef3b85346) — Calibración Epistémica:*
+- Ratio global: **31.8%** (muy por debajo del 50% mínimo)
+- 0% PROVEN claims (sin Bash verification)
+- 70% INFERRED con errores matemáticos
+- 30% SPECULATIVE claims
+- CAD dominios: todos CRÍTICO (<40/100)
+
+**Errors Críticos Encontrados:**
+1. Coverage: 70% reclama vs **56.5%** real (error +13.5%)
+2. Completitud: 57% reclama vs **50%** real (error +7%)
+3. Accessibility: fórmula implícita (sin pesos documentados)
+4. Asunciones heredadas de Phase 1 sin re-verificación
+5. Success criteria "No Speculative Claims" sin proceso definido
+
+**Deliverables (Phase 2 + Calibration):**
+- ✅ documentation-baseline-metrics.md
+- ✅ documentation-baseline-calibration-input.md (10 claims verbatim)
+- ✅ documentation-baseline-deep-dive.md (adversarial analysis)
+- ✅ documentation-baseline-calibration-results.md (epistemic classification)
+- ✅ phase-2-gate-evaluation.md (5 bloqueantes + acciones correctivas)
+
+**Gate Decision:** ❌ **RECHAZA BASELINE** — Retornar a Phase 2 para 5 correcciones
+
+**Next Step:** Phase 2 Remediation (T-001 a T-005) — Recalcular metrics con Bash verification (5.5 horas estimadas)
 
 ---
 
