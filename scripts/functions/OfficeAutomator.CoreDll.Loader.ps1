@@ -59,12 +59,22 @@
 
 function Load-OfficeAutomatorCoreDll {
     param(
-        [Parameter(Mandatory = $true, HelpMessage = "Path to OfficeAutomator.Core.dll")]
-        [ValidateScript({ Test-Path $_ -PathType Leaf })]
+        [Parameter(Mandatory = $false, HelpMessage = "Path to OfficeAutomator.Core.dll")]
         [string]$DllPath
     )
     
     try {
+        # Step 0: If DllPath not provided, construct it from script location
+        if ([string]::IsNullOrEmpty($DllPath)) {
+            $projectRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
+            $DllPath = Join-Path $projectRoot "src\OfficeAutomator.Core\bin\Release\net8.0\OfficeAutomator.Core.dll"
+        }
+        
+        # Verify DLL exists
+        if (-not (Test-Path $DllPath -PathType Leaf)) {
+            throw [System.IO.FileNotFoundException]::new("DLL not found: $DllPath (Error Code: 2001)")
+        }
+        
         # Step 1: Load DLL using .NET reflection
         # This makes all public types available in current PowerShell session
         [System.Reflection.Assembly]::LoadFrom($DllPath) | Out-Null
