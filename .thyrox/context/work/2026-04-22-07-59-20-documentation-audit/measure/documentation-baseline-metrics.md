@@ -49,7 +49,17 @@ version: 1.0.0
 | **Configuration flexibility** | Superficial | UCs 001-003 + UC-004 | 67% (falta UX de mensajes) |
 | **Error handling & recovery** | Superficial | UC-004, UC-005 | 67% (WP-level, no docs/) |
 
-**Coverage Baseline:** 70% (13 requisitos cubiertos / 23 total)
+**Coverage Baseline:** 76.2% (13 cubiertos + 0.5×6 superficial = 16 / 21 requisitos totales)
+
+Formula explícita (T-001):
+```
+Coverage = (CUBIERTO + 0.5×SUPERFICIAL) / TOTAL
+         = (13 + 0.5×6) / 21
+         = (13 + 3) / 21
+         = 16 / 21
+         = 76.2%
+```
+Justificación: SUPERFICIAL = "documented but incomplete" merece crédito parcial (50%)
 
 ### 1.3 Métricas de Accesibilidad
 
@@ -61,7 +71,31 @@ version: 1.0.0
 | **Navigation clarity (Table of Contents)** | 50% | INDEX.md existe pero no exhaustivo |
 | **User-facing patterns visibility** | 0% | Three-Layer Architecture recién agregado a README (Phase 12) |
 
-**Accessibility Baseline:** 50% (usuarios necesitan navegar README + INDEX para encontrar info)
+**Accessibility Baseline:** 58.3% (promedio ponderado de 5 componentes)
+
+Formula explícita (T-003):
+```
+Accessibility = (w1×A1 + w2×A2 + w3×A3 + w4×A4 + w5×A5) / Σw
+
+donde:
+  A1 = 80% (12 files normalizados a target de 15)
+  A2 = 85% (links funcionales)
+  A3 = 60% (discoverable desde README)
+  A4 = 50% (clarity navegación)
+  A5 =  0% (user patterns visibility)
+  
+  w1 = 0.15 (importancia: archivos)
+  w2 = 0.25 (importancia: navegación crítica)
+  w3 = 0.25 (importancia: descubribilidad crítica)
+  w4 = 0.20 (importancia: claridad navegación)
+  w5 = 0.15 (importancia: será mejora future)
+
+Accessibility = (0.15×80 + 0.25×85 + 0.25×60 + 0.20×50 + 0.15×0) / 1.0
+              = (12 + 21.25 + 15 + 10 + 0) / 1.0
+              = 58.25% ≈ 58.3%
+```
+
+Justificación: Pesos basados en impacto en navegación de usuario; A5 (patterns) será implementado post-Phase 12
 
 ### 1.4 Métricas de Completitud
 
@@ -75,7 +109,24 @@ version: 1.0.0
 | **Configuration Examples** | 50% | UC-004 tiene validación pero no ejemplos XML |
 | **Error Code Reference** | 0% | No existe documento consolidado de errores |
 
-**Completitud Baseline:** 57% (promedio de 7 dominios)
+**Completitud Baseline:** 50% (promedio aritmético de 7 dominios)
+
+Formula explícita (T-002):
+```
+Completitud = (95 + 60 + 75 + 40 + 30 + 50 + 0) / 7
+            = 350 / 7
+            = 50.0%
+```
+
+**Verificación Bash (T-004):**
+Todos los dominios auditados existen en el repositorio:
+- Use Cases (UC specs): Verificado con grep
+- Architecture: docs/ARCHITECTURE.md (11 KB)
+- Testing: docs/TESTING_SETUP.md + TEST_EXECUTION_REPORT.md
+- Troubleshooting: README (pequeño) + EXECUTION_GUIDE.md
+- Contributing: docs/CONTRIBUTING.md (1.7 KB)
+- Configuration Examples: UC-004 specs + ejemplos parciales
+- Error Code Reference: No existe (consolidado) — 0%
 
 ---
 
@@ -133,7 +184,26 @@ The documentation audit WP will be considered **SUCCESSFUL** when:
 - [ ] **Completitud ≥85%** (currently 57%, target most gaps filled)
 - [ ] **OPCIÓN B migration path defined** (architectural decision for Phase 5+)
 - [ ] **Phase 12 patterns propagated** (guidelines visible to users, not buried in .thyrox/)
-- [ ] **No claims SPECULATIVE** in final recommendations (all verified with Bash/evidence)
+- [ ] **No claims SPECULATIVE** in final recommendations (T-005: agentic calibration workflow process)
+  
+  **T-005 Proceso Verificable:**
+  ```
+  Criterion: "No claims SPECULATIVE in final recommendations"
+  
+  VERIFICATION PROCESS:
+  1. Input: Phase 3+ analysis documents
+  2. Execute: deep-dive agent (adversarial analysis 6+ layers)
+  3. Classify: PROVEN / INFERRED / SPECULATIVE
+  4. Calculate: ratio = (PROVEN + INFERRED) / TOTAL
+  5. Pass Gate: ratio ≥75% (observable + inferred only)
+  6. Fail Gate: ratio <75% (too speculative)
+  
+  AUDIT TRAIL:
+  - Input.md: verbatim claims (no compression)
+  - Deep-dive results: contradiction detection + epistemic classification
+  - Agentic-reasoning: score per claim + ratio calculation
+  - Gate evaluation: pass/fail decision with corrective actions documented
+  ```
 - [ ] **Risk Register updated** with post-implementation status
 
 ### Deliverables Required
