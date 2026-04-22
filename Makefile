@@ -10,10 +10,10 @@ setup: verify-env install-sdk
 	@echo "✓ Setup complete"
 
 verify-env:
-	@bash scripts/verify-environment.sh
+	@bash ./verify-environment.sh
 
 install-sdk:
-	@bash scripts/setup.sh
+	@bash ./setup.sh
 
 test:
 	@echo "Running tests..."
