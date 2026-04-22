@@ -1,0 +1,30 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Makefile: require REAL tabs (not spaces)
+[Makefile]
+indent_style = tab
+tab_width = 4
+
+# Shell scripts: spaces OK, but 2-space indent preferred
+[*.sh]
+indent_style = space
+indent_size = 2
+
+# Markdown: spaces, 2-space
+[*.md]
+indent_style = space
+indent_size = 2
+
+# JSON: spaces, 2-space
+[*.json]
+indent_style = space
+indent_size = 2
+charset = utf-8
+
+# C#: spaces, 4-space (default in project)
+[*.cs]
+indent_style = space
+indent_size = 4

@@ -15,6 +15,13 @@ OfficeAutomator is a complete Stage 10 implementation featuring:
 
 ## Quick Start
 
+```bash
+make setup    # Install .NET SDK 8.0 and verify environment
+make test     # Run all tests
+```
+
+For detailed setup instructions, see [CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
 ### Prerequisites
 
 - **.NET SDK 8.0** (required)
