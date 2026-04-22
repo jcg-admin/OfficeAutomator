@@ -1,5 +1,10 @@
 using Xunit;
 using OfficeAutomator.Core.Installation;
+using OfficeAutomator.Core.Models;
+using OfficeAutomator.Core.Error;
+using OfficeAutomator.Core.Services;
+using OfficeAutomator.Core.State;
+using OfficeAutomator.Core.Validation;
 using System;
 
 namespace OfficeAutomator.Tests

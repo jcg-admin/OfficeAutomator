@@ -1,6 +1,8 @@
 using Xunit;
 using OfficeAutomator.Core.Error;
+using OfficeAutomator.Core.Models;
 using System;
+using System.Linq;
 
 namespace OfficeAutomator.Tests
 {
@@ -377,15 +379,5 @@ namespace OfficeAutomator.Tests
             // After 3 retries, should not retry
             Assert.False(handler.ShouldRetry(error.code, 4));
         }
-    }
-
-    /// ENUM: RetryPolicy
-    /// Classifies errors into retry categories
-    public enum RetryPolicy
-    {
-        UNKNOWN = 0,
-        TRANSIENT = 1,  // 3x retry (2s, 4s, 6s backoff)
-        SYSTEM = 2,     // 1x retry (2s backoff)
-        PERMANENT = 3   // 0x retry (fail immediately)
     }
 }

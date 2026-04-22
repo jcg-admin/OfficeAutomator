@@ -1,5 +1,6 @@
 using Xunit;
 using OfficeAutomator.Core.Models;
+using OfficeAutomator.Core.Error;
 using System;
 
 namespace OfficeAutomator.Tests
@@ -168,7 +169,7 @@ namespace OfficeAutomator.Tests
             var config = new Configuration();
             Assert.Null(config.errorResult); // Initially null
 
-            var testError = new ErrorResult
+            var testError = new Configuration.ErrorResult
             {
                 code = "OFF-CONFIG-001",
                 message = "Invalid version",
@@ -258,7 +259,7 @@ namespace OfficeAutomator.Tests
             config.excludedApps = new string[] { };
 
             // Act - Simulate hash mismatch error
-            config.errorResult = new ErrorResult
+            config.errorResult = new Configuration.ErrorResult
             {
                 code = "OFF-SECURITY-101",
                 message = "Hash verification failed",
@@ -290,7 +291,7 @@ namespace OfficeAutomator.Tests
             };
 
             // Act - Simulate installation failure and rollback
-            config.errorResult = new ErrorResult
+            config.errorResult = new Configuration.ErrorResult
             {
                 code = "OFF-INSTALL-401",
                 message = "setup.exe failed",
@@ -309,20 +310,5 @@ namespace OfficeAutomator.Tests
             Assert.Equal("ROLLED_BACK", config.state);
             Assert.NotNull(config.errorResult); // Error kept for logging
         }
-    }
-
-    /// HELPER CLASS: ErrorResult
-    /// Represents an error that occurred during workflow
-    /// Reference: T-020 (Error Propagation)
-    public class ErrorResult
-    {
-        /// Error code (e.g., OFF-CONFIG-001, OFF-SECURITY-101)
-        public string code { get; set; }
-
-        /// User-facing error message
-        public string message { get; set; }
-
-        /// Technical details for IT support
-        public string technicalDetails { get; set; }
     }
 }

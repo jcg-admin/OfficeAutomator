@@ -1,5 +1,8 @@
 using Xunit;
 using OfficeAutomator.Core.State;
+using OfficeAutomator.Core.Models;
+using OfficeAutomator.Core.Error;
+using OfficeAutomator.Core.Services;
 using System;
 using System.Collections.Generic;
 

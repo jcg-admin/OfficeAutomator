@@ -2,6 +2,7 @@ using Xunit;
 using OfficeAutomator.Core.Services;
 using OfficeAutomator.Core.Models;
 using OfficeAutomator.Core.Error;
+using OfficeAutomator.Core.State;
 
 namespace OfficeAutomator.Tests
 {

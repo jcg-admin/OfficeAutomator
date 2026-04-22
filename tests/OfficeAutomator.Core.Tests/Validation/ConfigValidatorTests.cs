@@ -1,7 +1,11 @@
 using Xunit;
 using OfficeAutomator.Core.Validation;
+using OfficeAutomator.Core.Models;
+using OfficeAutomator.Core.Error;
+using OfficeAutomator.Core.Services;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace OfficeAutomator.Tests
 {
