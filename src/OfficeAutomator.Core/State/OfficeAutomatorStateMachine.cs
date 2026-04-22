@@ -193,7 +193,7 @@ namespace OfficeAutomator.Core.State
         }
 
         /// METHOD: IsTerminalState(string state) → bool
-        /// 
+        ///
         /// Checks if the state is terminal (no transitions possible).
         /// Used to determine if workflow is complete or failed.
         /// 
