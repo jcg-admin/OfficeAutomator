@@ -122,8 +122,9 @@ namespace OfficeAutomator.Core.Validation
                     )
                 );
 
-                // Return formatted XML
-                return doc.ToString(SaveOptions.None);
+                // Return formatted XML (include declaration)
+                return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                       doc.ToString(SaveOptions.None);
             }
             catch (Exception)
             {
