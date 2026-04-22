@@ -110,7 +110,7 @@ public class OfficeAutomator
 **Obligatorio: Always on New Line (Allman style)**
 
 ```csharp
-// ✓ CORRECTO
+// [OK] CORRECTO
 public void ValidateConfiguration()
 {
     if (configuration == null)
@@ -124,7 +124,7 @@ public void ValidateConfiguration()
     }
 }
 
-// ❌ INCORRECTO (K&R style)
+// [ERROR] INCORRECTO (K&R style)
 public void ValidateConfiguration() {
     if (configuration == null) {
         throw new ArgumentNullException(nameof(configuration));
@@ -137,7 +137,7 @@ public void ValidateConfiguration() {
 **100 caracteres por línea** (hard limit)
 
 ```csharp
-// ✓ CORRECTO (95 chars)
+// [OK] CORRECTO (95 chars)
 public async Task<ConfigurationResult> ValidateAndGenerateConfigAsync(
     OfficeConfiguration config,
     string outputPath)
@@ -145,7 +145,7 @@ public async Task<ConfigurationResult> ValidateAndGenerateConfigAsync(
     // implementation
 }
 
-// ❌ INCORRECTO (120+ chars)
+// [ERROR] INCORRECTO (120+ chars)
 public async Task<ConfigurationResult> ValidateAndGenerateConfigurationFileFromUserInputAndOutputToSystemPathAsync(OfficeConfiguration config) { ... }
 ```
 
@@ -158,7 +158,7 @@ public async Task<ConfigurationResult> ValidateAndGenerateConfigurationFileFromU
 **Una clase = Una responsabilidad**
 
 ```csharp
-// ❌ MAL - Hace demasiado
+// [ERROR] MAL - Hace demasiado
 public class OfficeInstaller
 {
     public void ValidateConfiguration() { /* ... */ }
@@ -168,7 +168,7 @@ public class OfficeInstaller
     public void SaveToDatabase() { /* ... */ }
 }
 
-// ✓ BIEN - Responsabilidades separadas
+// [OK] BIEN - Responsabilidades separadas
 public class ConfigValidator
 {
     public bool Validate(OfficeConfiguration config) { /* ... */ }
@@ -193,7 +193,7 @@ public class ExecutionLogger
 ### 2. Reveal Intent (Nombres Descriptivos)
 
 ```csharp
-// ❌ MAL
+// [ERROR] MAL
 public class OfficeAutomator
 {
     private bool v;
@@ -206,7 +206,7 @@ public class OfficeAutomator
     }
 }
 
-// ✓ BIEN
+// [OK] BIEN
 public class OfficeAutomator
 {
     private bool isConfigurationValid;
@@ -225,7 +225,7 @@ public class OfficeAutomator
 **Validar ANTES de actuar**
 
 ```csharp
-// ✓ BIEN - Fail-fast
+// [OK] BIEN - Fail-fast
 public class ConfigValidator
 {
     public bool Validate(OfficeConfiguration config)
@@ -249,7 +249,7 @@ public class ConfigValidator
 ### 4. DRY Principle (Don't Repeat Yourself)
 
 ```csharp
-// ❌ MAL - Repetición
+// [ERROR] MAL - Repetición
 public class LanguageValidator
 {
     public bool IsLanguageSupportedFor2024(string lang)
@@ -268,7 +268,7 @@ public class LanguageValidator
     }
 }
 
-// ✓ BIEN - Función reutilizable
+// [OK] BIEN - Función reutilizable
 public class LanguageValidator
 {
     private readonly Dictionary<string, string[]> _supportedLanguagesByVersion = 
@@ -290,7 +290,7 @@ public class LanguageValidator
 ### 5. Keep It Simple (KISS)
 
 ```csharp
-// ❌ MAL - Overcomplicated
+// [ERROR] MAL - Overcomplicated
 public bool ValidateConfiguration(OfficeConfiguration config)
 {
     var result = true;
@@ -314,7 +314,7 @@ public bool ValidateConfiguration(OfficeConfiguration config)
     return result;
 }
 
-// ✓ BIEN - Simple y claro
+// [OK] BIEN - Simple y claro
 public bool ValidateConfiguration(OfficeConfiguration config)
 {
     if (config?.Version == null)
@@ -392,7 +392,7 @@ public class ConfigurationValidator
 **Máximo 20 líneas por método**
 
 ```csharp
-// ❌ MAL (50 líneas en un método)
+// [ERROR] MAL (50 líneas en un método)
 public void InstallOffice(Configuration config)
 {
     // Validación (10 líneas)
@@ -401,7 +401,7 @@ public void InstallOffice(Configuration config)
     // Ejecutar (10 líneas)
 }
 
-// ✓ BIEN (cada método ~5-10 líneas)
+// [OK] BIEN (cada método ~5-10 líneas)
 public async Task InstallOfficeAsync(Configuration config)
 {
     ValidateConfiguration(config);
@@ -425,14 +425,14 @@ private void ValidateConfiguration(Configuration config)
 **Máximo 3 parámetros; si hay más, usar objeto**
 
 ```csharp
-// ❌ MAL (5 parámetros)
+// [ERROR] MAL (5 parámetros)
 public bool Configure(string version, string language, string[] exclusions, 
                       bool useProxy, string proxyUrl)
 {
     // Demasiados parámetros
 }
 
-// ✓ BIEN (1 parámetro objeto)
+// [OK] BIEN (1 parámetro objeto)
 public bool Configure(ConfigurationRequest request)
 {
     // Parámetro único, claro
@@ -450,7 +450,7 @@ public class ConfigurationRequest
 ### Retorno de Valores
 
 ```csharp
-// ❌ MAL - Retorna bool y modifica estado
+// [ERROR] MAL - Retorna bool y modifica estado
 public bool ValidateAndUpdate(Configuration config)
 {
     if (!IsValid(config))
@@ -460,7 +460,7 @@ public bool ValidateAndUpdate(Configuration config)
     return true;
 }
 
-// ✓ BIEN - Puro (no modifica estado)
+// [OK] BIEN - Puro (no modifica estado)
 public bool Validate(Configuration config)
 {
     return IsVersionValid(config.Version) 
@@ -494,7 +494,7 @@ Nombres en C# deben equilibrar:
 **Usar prefijos: `Is`, `Has`, `Can`, `Should` (máximo 3 palabras)**
 
 ```csharp
-// ✓ BIEN - Claro, pronunciable, 2-3 palabras
+// [OK] BIEN - Claro, pronunciable, 2-3 palabras
 public bool IsVersionSupported(string version) { }
 public bool HasConfig() { }
 public bool CanInstall() { }
@@ -504,7 +504,7 @@ public bool ShouldRetry(int attempts) { }
 public bool IsVersionSupported_AndNotDeprecated_AndCompatibleWithCurrentOS() { }
 public bool HasValidAndCompleteConfiguration() { }
 
-// ❌ INCORRECTO - Ambiguo o sin sufijo boolean
+// [ERROR] INCORRECTO - Ambiguo o sin sufijo boolean
 public bool Version(string v) { }
 public bool Valid() { }
 ```
@@ -514,7 +514,7 @@ public bool Valid() { }
 **Usar verbos claros: `Get`, `Set`, `Create`, `Execute`, `Validate` (máximo 3 palabras)**
 
 ```csharp
-// ✓ BIEN - Claro, 2-3 palabras
+// [OK] BIEN - Claro, 2-3 palabras
 public string GetConfigPath() { }
 public void SetLogLevel(LogLevel level) { }
 public Configuration CreateDefault() { }
@@ -526,7 +526,7 @@ public string GetCompletePathToConfigurationFileInSystemDirectory() { }
 public Configuration CreateDefaultConfigurationWithAllRequiredSettings() { }
 public async Task ExecuteTheOfficeInstallationProcessAsync() { }
 
-// ❌ AMBIGUO
+// [ERROR] AMBIGUO
 public string Config() { }
 public void Log(LogLevel l) { }
 public Configuration Default() { }
@@ -538,7 +538,7 @@ public async Task DoAsync() { }
 **Balance scope vs. claridad:**
 
 ```csharp
-// ✓ BIEN - Variables locales pueden ser más cortas (scope es claro)
+// [OK] BIEN - Variables locales pueden ser más cortas (scope es claro)
 public void ProcessConfig(string path)
 {
     var isValid = _validator.Validate(path);
@@ -548,7 +548,7 @@ public void ProcessConfig(string path)
     // Contexto está claro: estamos en ProcessConfig
 }
 
-// ✓ BIEN - Variables con mayor scope necesitan más contexto
+// [OK] BIEN - Variables con mayor scope necesitan más contexto
 private IConfigValidator _validator;
 private int _maxRetryCount = 3;
 private string _configurationPath = "";
@@ -558,7 +558,7 @@ public void SetupPaths(string basePath)
     _configurationPath = Path.Combine(basePath, "config.xml");
 }
 
-// ❌ INCORRECTO - Ambiguo, sin contexto
+// [ERROR] INCORRECTO - Ambiguo, sin contexto
 var v = _validator.Validate(config);  // ¿v qué es?
 var max = 3;                           // ¿max qué cosa?
 var p = Path.Combine(dir, "config");   // ¿p qué?
@@ -605,7 +605,7 @@ public class OfficeInstaller
 ### Excepciones Específicas
 
 ```csharp
-// ✓ BIEN - Excepciones específicas
+// [OK] BIEN - Excepciones específicas
 public void ValidateConfiguration(Configuration config)
 {
     if (config == null)
@@ -618,7 +618,7 @@ public void ValidateConfiguration(Configuration config)
         throw new NotSupportedException($"Version not supported: {config.Version}");
 }
 
-// ❌ INCORRECTO - Excepciones genéricas
+// [ERROR] INCORRECTO - Excepciones genéricas
 public void ValidateConfiguration(Configuration config)
 {
     if (config == null)
@@ -632,7 +632,7 @@ public void ValidateConfiguration(Configuration config)
 ### Try-Catch Patterns
 
 ```csharp
-// ✓ BIEN - Específico y logged
+// [OK] BIEN - Específico y logged
 public async Task<bool> InstallAsync(string configPath)
 {
     try
@@ -651,7 +651,7 @@ public async Task<bool> InstallAsync(string configPath)
     }
 }
 
-// ❌ INCORRECTO - Silencia errores
+// [ERROR] INCORRECTO - Silencia errores
 public async Task<bool> InstallAsync(string configPath)
 {
     try
@@ -696,13 +696,13 @@ public bool ValidateConfiguration(OfficeConfiguration config)
 ### No para Privado
 
 ```csharp
-// ✓ BIEN - Sin XML para métodos privados
+// [OK] BIEN - Sin XML para métodos privados
 private bool IsVersionSupported(string version)
 {
     return _supportedVersions.Contains(version);
 }
 
-// ❌ INCORRECTO - Documentación innecesaria
+// [ERROR] INCORRECTO - Documentación innecesaria
 /// <summary>
 /// Check if version is supported
 /// </summary>
@@ -781,14 +781,14 @@ public void Validate_WithSupportedVersion_ReturnsTrue(string version) { }
 ### Obligatorio para I/O
 
 ```csharp
-// ✓ BIEN - Async para operaciones I/O
+// [OK] BIEN - Async para operaciones I/O
 public async Task<Configuration> LoadConfigurationAsync(string path)
 {
     var content = await File.ReadAllTextAsync(path);
     return JsonSerializer.Deserialize<Configuration>(content);
 }
 
-// ❌ INCORRECTO - Bloqueante
+// [ERROR] INCORRECTO - Bloqueante
 public Configuration LoadConfiguration(string path)
 {
     var content = File.ReadAllText(path);  // Bloquea el thread
@@ -799,7 +799,7 @@ public Configuration LoadConfiguration(string path)
 ### ConfigureAwait
 
 ```csharp
-// ✓ BIEN - ConfigureAwait(false) en biblioteca
+// [OK] BIEN - ConfigureAwait(false) en biblioteca
 public async Task<bool> ValidateAsync(Configuration config)
 {
     var result = await _validator.ValidateAsync(config)
@@ -816,11 +816,11 @@ public async Task<bool> ValidateAsync(Configuration config)
 ### 1. Magic Strings
 
 ```csharp
-// ❌ MAL
+// [ERROR] MAL
 if (config.Version == "2024") { }
 var path = "C:\\Temp\\Office\\config.xml";
 
-// ✓ BIEN
+// [OK] BIEN
 private const string SupportedVersion2024 = "2024";
 private const string DefaultConfigPath = "C:\\Temp\\Office\\config.xml";
 
@@ -831,7 +831,7 @@ var path = DefaultConfigPath;
 ### 2. God Objects
 
 ```csharp
-// ❌ MAL - Una clase que hace todo
+// [ERROR] MAL - Una clase que hace todo
 public class OfficeAutomator
 {
     public void ValidateConfiguration() { }
@@ -842,7 +842,7 @@ public class OfficeAutomator
     public void Log() { }
 }
 
-// ✓ BIEN - Responsabilidades separadas
+// [OK] BIEN - Responsabilidades separadas
 public class ConfigValidator { }
 public class XmlGenerator { }
 public class OdtDownloader { }
@@ -854,13 +854,13 @@ public class ExecutionLogger { }
 ### 3. Null Reference Exceptions
 
 ```csharp
-// ❌ MAL
+// [ERROR] MAL
 public void Process(Configuration config)
 {
     var language = config.Language;  // NullReferenceException si config es null
 }
 
-// ✓ BIEN - Null check
+// [OK] BIEN - Null check
 public void Process(Configuration config)
 {
     if (config?.Language == null)
@@ -869,7 +869,7 @@ public void Process(Configuration config)
     var language = config.Language;
 }
 
-// ✓ MEJOR - Validar en constructor
+// [OK] MEJOR - Validar en constructor
 public class Processor
 {
     private readonly Configuration _config;
@@ -884,7 +884,7 @@ public class Processor
 ### 4. Mixing Concerns
 
 ```csharp
-// ❌ MAL - UI y lógica mezcladas (no aplica en Layer 2, pero ejemplo)
+// [ERROR] MAL - UI y lógica mezcladas (no aplica en Layer 2, pero ejemplo)
 public void InstallWithUI(Configuration config)
 {
     Console.WriteLine("Installing...");
@@ -892,7 +892,7 @@ public void InstallWithUI(Configuration config)
     Console.WriteLine(result ? "Success" : "Failed");
 }
 
-// ✓ BIEN - Separar responsabilidades
+// [OK] BIEN - Separar responsabilidades
 public async Task<bool> InstallAsync(Configuration config)
 {
     return await ExecuteAsync(config);

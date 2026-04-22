@@ -98,13 +98,13 @@ function Invoke-OfficeAutomator {
 | `Add-` | Agregar | `Add-Language` |
 
 ```powershell
-# ✓ BIEN - Verbos aprobados
+# [OK] BIEN - Verbos aprobados
 function Get-SupportedVersions { }
 function Test-Configuration { }
 function Invoke-Installation { }
 function Write-ExecutionLog { }
 
-# ❌ INCORRECTO - Nombres no estándar
+# [ERROR] INCORRECTO - Nombres no estándar
 function GetVersions { }
 function CheckConfig { }
 function DoInstall { }
@@ -114,13 +114,13 @@ function LogExecution { }
 ### Convención de Variables
 
 ```powershell
-# ✓ BIEN - Descriptivas
+# [OK] BIEN - Descriptivas
 $configurationPath = "C:\Temp\config.xml"
 $isConfigurationValid = $true
 $maxRetryCount = 3
 $supportedVersions = @("2024", "2021", "2019")
 
-# ❌ INCORRECTO - Abreviadas
+# [ERROR] INCORRECTO - Abreviadas
 $cfg = "C:\Temp\config.xml"
 $valid = $true
 $max = 3
@@ -144,11 +144,11 @@ function Invoke-Installation { }
 ### Línea Máxima: 100 caracteres
 
 ```powershell
-# ✓ CORRECTO (95 chars)
+# [OK] CORRECTO (95 chars)
 $configuration = Get-Content -Path $configPath | 
     ConvertFrom-Json
 
-# ❌ INCORRECTO (120+ chars)
+# [ERROR] INCORRECTO (120+ chars)
 $configuration = Get-Content -Path $configPath | ConvertFrom-Json -WarningAction SilentlyContinue -ErrorAction Continue
 ```
 
@@ -161,7 +161,7 @@ $configuration = Get-Content -Path $configPath | ConvertFrom-Json -WarningAction
 **Una función = Una tarea**
 
 ```powershell
-# ❌ MAL - Hace demasiado
+# [ERROR] MAL - Hace demasiado
 function Invoke-Installation {
     param([string]$ConfigPath)
     
@@ -178,7 +178,7 @@ function Invoke-Installation {
     Write-Log "Done"
 }
 
-# ✓ BIEN - Responsabilidades separadas
+# [OK] BIEN - Responsabilidades separadas
 function Invoke-Installation {
     param([string]$ConfigPath)
     
@@ -206,7 +206,7 @@ function Register-InstallationCompletion {
 ### 2. Reveal Intent
 
 ```powershell
-# ❌ MAL
+# [ERROR] MAL
 function Proc {
     param($c)
     
@@ -219,7 +219,7 @@ function Proc {
     }
 }
 
-# ✓ BIEN
+# [OK] BIEN
 function Invoke-OfficeAutomator {
     param([string]$ConfigPath)
     
@@ -237,7 +237,7 @@ function Invoke-OfficeAutomator {
 ### 3. Fail-Fast Principle
 
 ```powershell
-# ✓ BIEN - Validar primero
+# [OK] BIEN - Validar primero
 function Invoke-OfficeAutomator {
     param([string]$ConfigPath)
     
@@ -262,7 +262,7 @@ function Invoke-OfficeAutomator {
 ### 4. DRY Principle
 
 ```powershell
-# ❌ MAL - Repetición
+# [ERROR] MAL - Repetición
 function Test-LanguageFor2024 {
     param([string]$Language)
     
@@ -277,7 +277,7 @@ function Test-LanguageFor2021 {
     return $supported -contains $Language
 }
 
-# ✓ BIEN - Función reutilizable
+# [OK] BIEN - Función reutilizable
 function Test-LanguageSupportedForVersion {
     param(
         [string]$Version,
@@ -376,7 +376,7 @@ function Invoke-OfficeAutomator {
 ### Parámetros
 
 ```powershell
-# ✓ BIEN - Typed, validado, documentado
+# [OK] BIEN - Typed, validado, documentado
 function Get-OfficeConfiguration {
     param(
         [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
@@ -393,7 +393,7 @@ function Get-OfficeConfiguration {
     }
 }
 
-# ❌ INCORRECTO - Untyped, sin validación
+# [ERROR] INCORRECTO - Untyped, sin validación
 function Get-OfficeConfiguration {
     param($configPath, $timeout)
     
@@ -423,7 +423,7 @@ Nombres en PowerShell deben equilibrar:
 **Patrón: `Test-{Noun}` o `Test-{Noun}{Condition}` (máximo 3 palabras)**
 
 ```powershell
-# ✓ BIEN - Claro, 2-3 palabras
+# [OK] BIEN - Claro, 2-3 palabras
 function Test-Config { }
 function Test-DownloadHash { }
 function Test-LanguageSupport { }
@@ -433,7 +433,7 @@ function Test-ConfigurationFileValidityAndCompleteness { }
 function Test-DownloadIntegrityAndHashConsistency { }
 function Test-LanguageSupportAcrossAllVersions { }
 
-# ❌ INCORRECTO - Sin Verb-Noun o ambiguo
+# [ERROR] INCORRECTO - Sin Verb-Noun o ambiguo
 function Validate-Config { }        # Use Test-, not Validate-
 function CheckConfig { }            # No PascalCase
 function LanguageOK { }             # No Verb-Noun pattern
@@ -444,12 +444,12 @@ function LanguageOK { }             # No Verb-Noun pattern
 **Patrón: `Get-{Noun}` (máximo 2-3 palabras)**
 
 ```powershell
-# ✓ BIEN - Conciso, pronunciable
+# [OK] BIEN - Conciso, pronunciable
 function Get-Versions { }
 function Get-Languages { }
 function Get-Logs { }
 
-# ✓ BIEN - En contextos especializados, puedes ser más específico
+# [OK] BIEN - En contextos especializados, puedes ser más específico
 function Get-SupportedVersions { }      # Specialized script: list-versions.ps1
 function Get-InstalledLanguages { }     # Specialized script: check-languages.ps1
 
@@ -457,7 +457,7 @@ function Get-InstalledLanguages { }     # Specialized script: check-languages.ps
 function Get-AllSupportedOfficeVersionsWithDetails { }
 function Get-InstalledSystemLanguagesWithLocales { }
 
-# ❌ INCORRECTO
+# [ERROR] INCORRECTO
 function GetVersions { }            # No PascalCase
 function FetchLanguages { }         # Use Get-, not Fetch-
 function ReadLogs { }               # Use Get-, not Read-
@@ -468,7 +468,7 @@ function ReadLogs { }               # Use Get-, not Read-
 **Variables locales pueden ser más concisas (scope es claro):**
 
 ```powershell
-# ✓ BIEN - Parámetros descriptivos (visible externamente)
+# [OK] BIEN - Parámetros descriptivos (visible externamente)
 function Invoke-Installation {
     param(
         [Parameter(Mandatory=$true)]
@@ -497,7 +497,7 @@ function Invoke-OfficeInstallationProcessWithValidation {
     )
 }
 
-# ❌ INCORRECTO - Variables ambiguas
+# [ERROR] INCORRECTO - Variables ambiguas
 function Process {
     param([string]$c, [int]$r = 3)
     
@@ -526,7 +526,7 @@ function Download-Tool { }          # Necesario: clarificar qué se descarga
 ### Parámetros Obligatorios vs Opcionales
 
 ```powershell
-# ✓ BIEN - Claro cuál es cuál
+# [OK] BIEN - Claro cuál es cuál
 function Invoke-Installation {
     param(
         [Parameter(Mandatory=$true)]
@@ -542,7 +542,7 @@ function Invoke-Installation {
     # Implementation
 }
 
-# ❌ INCORRECTO - Ambiguo
+# [ERROR] INCORRECTO - Ambiguo
 function Invoke-Installation {
     param([string]$c, [int]$r = 3, [switch]$v)
     
@@ -553,7 +553,7 @@ function Invoke-Installation {
 ### Pipeline Support
 
 ```powershell
-# ✓ BIEN - Acepta pipeline
+# [OK] BIEN - Acepta pipeline
 function Get-Configuration {
     [CmdletBinding()]
     param(
@@ -581,7 +581,7 @@ function Get-Configuration {
 ### Try-Catch Explícito
 
 ```powershell
-# ✓ BIEN - Catch específico
+# [OK] BIEN - Catch específico
 function Invoke-Installation {
     try {
         $config = Get-Content $ConfigPath | ConvertFrom-Json
@@ -601,7 +601,7 @@ function Invoke-Installation {
     }
 }
 
-# ❌ INCORRECTO - Catch genérico
+# [ERROR] INCORRECTO - Catch genérico
 function Invoke-Installation {
     try {
         $config = Get-Content $ConfigPath | ConvertFrom-Json
@@ -615,7 +615,7 @@ function Invoke-Installation {
 ### ErrorActionPreference
 
 ```powershell
-# ✓ BIEN - Explícito
+# [OK] BIEN - Explícito
 function Invoke-Installation {
     param([string]$ConfigPath)
     
@@ -684,10 +684,10 @@ function Invoke-OfficeAutomator {
 ### NO para Privado
 
 ```powershell
-# ✓ BIEN - Sin comentarios para lógica obvia
+# [OK] BIEN - Sin comentarios para lógica obvia
 $supportedVersions = @("2024", "2021", "2019")
 
-# ❌ INCORRECTO - Comentarios innecesarios
+# [ERROR] INCORRECTO - Comentarios innecesarios
 # This is a comment explaining what the line does
 $supportedVersions = @("2024", "2021", "2019")
 ```
@@ -744,11 +744,11 @@ It "Test-ConfigurationValidity_WithNullInput_ReturnsFalse" { }
 ### 1. Magic Strings
 
 ```powershell
-# ❌ MAL
+# [ERROR] MAL
 if ($version -eq "2024") { ... }
 $path = "C:\Program Files\Microsoft Office"
 
-# ✓ BIEN
+# [OK] BIEN
 $SupportedVersion2024 = "2024"
 $OfficeInstallationPath = "C:\Program Files\Microsoft Office"
 
@@ -758,14 +758,14 @@ if ($version -eq $SupportedVersion2024) { ... }
 ### 2. Positional Parameters Sin Tipo
 
 ```powershell
-# ❌ MAL
+# [ERROR] MAL
 function Process {
     param($config, $retries, $verbose)
     
     # ¿Qué tipo es cada parámetro?
 }
 
-# ✓ BIEN
+# [OK] BIEN
 function Process {
     param(
         [System.IO.FileInfo]$ConfigFile,
@@ -778,13 +778,13 @@ function Process {
 ### 3. Silenciar Errores
 
 ```powershell
-# ❌ MAL - Silencia errores
+# [ERROR] MAL - Silencia errores
 $result = Get-Content $ConfigPath -ErrorAction SilentlyContinue
 if ($result -eq $null) {
     Write-Host "Config not found"  # Sin info
 }
 
-# ✓ BIEN - Explícito
+# [OK] BIEN - Explícito
 try {
     $result = Get-Content $ConfigPath -ErrorAction Stop
 }
@@ -797,7 +797,7 @@ catch [System.IO.FileNotFoundException] {
 ### 4. Global Variables
 
 ```powershell
-# ❌ MAL
+# [ERROR] MAL
 $global:ConfigPath = "C:\config.xml"
 $global:LogPath = "C:\logs"
 
@@ -805,7 +805,7 @@ function Get-Configuration {
     Get-Content $global:ConfigPath  # Acoplamiento global
 }
 
-# ✓ BIEN - Parámetros
+# [OK] BIEN - Parámetros
 function Get-Configuration {
     param([string]$ConfigPath)
     
