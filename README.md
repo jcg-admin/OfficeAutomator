@@ -28,11 +28,11 @@ OfficeAutomator is a complete Stage 10 implementation featuring:
 ```bash
 # If you have the ZIP file
 unzip OfficeAutomator-Stage10-Complete.zip
-cd OfficeAutomator/OfficeAutomator.Core
+cd src/OfficeAutomator.Core
 
 # Or if you have the TAR.GZ file
 tar -xzf OfficeAutomator-Stage10-Complete.tar.gz
-cd OfficeAutomator/OfficeAutomator.Core
+cd src/OfficeAutomator.Core
 ```
 
 #### Step 2: Install .NET SDK 8.0 (if needed)
@@ -74,11 +74,11 @@ run-tests.bat
 ```
 Test Run Summary:
   Total tests: 220+
-  Passed: 220+ ✓
+  Passed: 220+
   Failed: 0
   Duration: ~10 seconds
 
-✓ ALL TESTS PASSED ✓
+ALL TESTS PASSED
 ```
 
 ## Project Structure
@@ -131,32 +131,32 @@ OfficeAutomator/
 
 ## Use Cases Implemented
 
-### ✓ UC-001: Version Selection
+### UC-001: Version Selection
 User selects Office version (2024, 2021, 2019)
 - **Class:** `VersionSelector`
 - **Tests:** 20 tests, 100% coverage
 - **Error Code:** OFF-CONFIG-001
 
-### ✓ UC-002: Language Selection
+### UC-002: Language Selection
 User selects language(s) (en-US, es-MX)
 - **Class:** `LanguageSelector`
 - **Tests:** 20 tests, 100% coverage
 - **Error Code:** OFF-CONFIG-002
 
-### ✓ UC-003: App Exclusion
+### UC-003: App Exclusion
 User selects apps to exclude (5 options available)
 - **Class:** `AppExclusionSelector`
 - **Tests:** 20 tests, 100% coverage
 - **Error Code:** OFF-CONFIG-003
 
-### ✓ UC-004: Configuration Validation
+### UC-004: Configuration Validation
 Generates XML config and validates 8 steps
 - **Classes:** `ConfigGenerator` + `ConfigValidator`
 - **Tests:** 45 tests, 100% coverage
 - **Error Code:** OFF-CONFIG-004
 - **Features:** XML schema validation, file hash verification, timeout (1 second)
 
-### ✓ UC-005: Installation & Rollback
+### UC-005: Installation & Rollback
 Downloads and installs Office with atomic 3-part rollback
 - **Classes:** `InstallationExecutor` + `RollbackExecutor`
 - **Tests:** 40 tests, 100% coverage
@@ -256,7 +256,7 @@ dotnet test --filter "E2E"                 # Only E2E tests
 
 ### Built-in Documentation
 
-All documentation is in the `OfficeAutomator.Core/` directory:
+Documentation is in the `docs/` directory:
 
 1. **TESTING_SETUP.md** (50+ pages)
    - Windows setup (Visual Studio, PowerShell, CLI)
@@ -292,7 +292,7 @@ All documentation is in the `OfficeAutomator.Core/` directory:
 
 ## Platform Support
 
-✓ Windows | ✓ macOS | ✓ Linux | ✓ Docker | ✓ Cloud
+Supported: Windows, macOS, Linux, Docker, Cloud
 
 ## Development
 
