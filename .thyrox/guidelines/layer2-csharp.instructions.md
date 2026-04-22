@@ -477,56 +477,125 @@ public void UpdateConfiguration(Configuration config)
 
 ## NOMBRES REVELAN INTENCIÓN
 
+### Criterios de Balance
+
+Nombres en C# deben equilibrar:
+
+| Criterio | Target | Nota |
+|----------|--------|------|
+| **Revela intención** | Claro | Contexto sin verbosidad excesiva |
+| **Pronunciable** | 2-4 palabras máximo | Evita nombres imposibles de leer en voz alta |
+| **Buscable** | Específico | grep-friendly, IntelliSense-friendly |
+| **Scope apropiado** | Variable | Variables locales pueden ser más cortas |
+| **Convención .NET** | Requerido | camelCase (local), PascalCase (public) |
+
 ### Métodos Booleanos
 
-**Usar prefijos: `Is`, `Has`, `Can`, `Should`**
+**Usar prefijos: `Is`, `Has`, `Can`, `Should` (máximo 3 palabras)**
 
 ```csharp
-// ✓ BIEN
+// ✓ BIEN - Claro, pronunciable, 2-3 palabras
 public bool IsVersionSupported(string version) { }
-public bool HasValidConfiguration() { }
-public bool CanExecuteInstallation() { }
-public bool ShouldRetry(int attemptCount) { }
+public bool HasConfig() { }
+public bool CanInstall() { }
+public bool ShouldRetry(int attempts) { }
 
-// ❌ INCORRECTO
+// ⚠ DEMASIADO VERBOSO - Dissertación
+public bool IsVersionSupported_AndNotDeprecated_AndCompatibleWithCurrentOS() { }
+public bool HasValidAndCompleteConfiguration() { }
+
+// ❌ INCORRECTO - Ambiguo o sin sufijo boolean
 public bool Version(string v) { }
 public bool Valid() { }
-public bool Execute() { }
-public bool Retry(int attempts) { }
 ```
 
 ### Métodos de Acción
 
-**Usar verbos: `Get`, `Set`, `Create`, `Execute`, `Validate`**
+**Usar verbos claros: `Get`, `Set`, `Create`, `Execute`, `Validate` (máximo 3 palabras)**
 
 ```csharp
-// ✓ BIEN
-public string GetConfigurationPath() { }
+// ✓ BIEN - Claro, 2-3 palabras
+public string GetConfigPath() { }
 public void SetLogLevel(LogLevel level) { }
-public Configuration CreateDefaultConfig() { }
-public async Task ExecuteInstallationAsync() { }
-public ValidationResult ValidateLanguage(string lang) { }
+public Configuration CreateDefault() { }
+public async Task ExecuteAsync() { }
+public ValidationResult Validate(string lang) { }
 
-// ❌ INCORRECTO
+// ⚠ VERBOSIDAD - Demasiadas palabras
+public string GetCompletePathToConfigurationFileInSystemDirectory() { }
+public Configuration CreateDefaultConfigurationWithAllRequiredSettings() { }
+public async Task ExecuteTheOfficeInstallationProcessAsync() { }
+
+// ❌ AMBIGUO
 public string Config() { }
 public void Log(LogLevel l) { }
 public Configuration Default() { }
 public async Task DoAsync() { }
-public void Check(string l) { }
 ```
 
-### Variables
+### Variables Locales
+
+**Balance scope vs. claridad:**
 
 ```csharp
-// ✓ BIEN
-var isConfigurationValid = validator.Validate(config);
-var maxRetryCount = 3;
-var configurationPath = Path.Combine(baseDir, "config.xml");
+// ✓ BIEN - Variables locales pueden ser más cortas (scope es claro)
+public void ProcessConfig(string path)
+{
+    var isValid = _validator.Validate(path);
+    var retries = 3;
+    var dir = Path.GetDirectoryName(path);
+    
+    // Contexto está claro: estamos en ProcessConfig
+}
 
-// ❌ INCORRECTO
-var valid = validator.Validate(config);
-var max = 3;
-var path = Path.Combine(baseDir, "config.xml");
+// ✓ BIEN - Variables con mayor scope necesitan más contexto
+private IConfigValidator _validator;
+private int _maxRetryCount = 3;
+private string _configurationPath = "";
+
+public void SetupPaths(string basePath)
+{
+    _configurationPath = Path.Combine(basePath, "config.xml");
+}
+
+// ❌ INCORRECTO - Ambiguo, sin contexto
+var v = _validator.Validate(config);  // ¿v qué es?
+var max = 3;                           // ¿max qué cosa?
+var p = Path.Combine(dir, "config");   // ¿p qué?
+```
+
+### Convención por Scope en Métodos
+
+```csharp
+public class OfficeInstaller
+{
+    // Campos privados: descriptivos y contextuales
+    private readonly IConfigValidator _configValidator;
+    private readonly ILogger _logger;
+    private int _maxRetryAttempts = 3;
+    
+    // Parámetros: lo más concisos posible (scope es el método)
+    public ValidationResult Validate(string language, string version)
+    {
+        // Variables locales: cortas OK, contexto es claro
+        var isSupported = CheckSupport(language, version);
+        var errors = new List<string>();
+        
+        if (!isSupported)
+        {
+            errors.Add($"Language {language} not supported");
+        }
+        
+        return new ValidationResult { IsValid = errors.Count == 0, Errors = errors };
+    }
+    
+    // Método privado: puede ser más conciso (scope = esta clase)
+    private bool CheckSupport(string lang, string ver)
+    {
+        return _supportedLanguages.Contains(lang) && 
+               _supportedVersions.Contains(ver);
+    }
+}
 ```
 
 ---

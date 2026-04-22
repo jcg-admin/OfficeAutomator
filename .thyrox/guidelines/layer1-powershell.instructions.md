@@ -406,36 +406,117 @@ function Get-OfficeConfiguration {
 
 ## NOMBRES REVELAN INTENCIÓN
 
+### Criterios de Balance
+
+Nombres en PowerShell deben equilibrar:
+
+| Criterio | Target | Nota |
+|----------|--------|------|
+| **Revela intención** | Claro | Contexto sin verbosidad excesiva |
+| **Pronunciable** | 2-3 palabras máximo | Evita nombres largos imposibles de recordar |
+| **Buscable** | Específico | Searchable en PowerShell Get-Help |
+| **Scope apropiado** | Variable | Variables locales pueden ser más cortas |
+| **Convención PowerShell** | Requerido | Verb-Noun con verbos aprobados |
+
 ### Funciones Test (Booleanas)
 
-**Patrón: `Test-{Noun}{Condition}`**
+**Patrón: `Test-{Noun}` o `Test-{Noun}{Condition}` (máximo 3 palabras)**
 
 ```powershell
-# ✓ BIEN
-function Test-ConfigurationValidity { }
-function Test-DownloadIntegrity { }
+# ✓ BIEN - Claro, 2-3 palabras
+function Test-Config { }
+function Test-DownloadHash { }
 function Test-LanguageSupport { }
-function Test-SystemPrerequisites { }
 
-# ❌ INCORRECTO
-function Validate { }
-function CheckConfig { }
-function LanguageOK { }
-function Prerequisites { }
+# ⚠ VERBOSIDAD - Demasiadas palabras
+function Test-ConfigurationFileValidityAndCompleteness { }
+function Test-DownloadIntegrityAndHashConsistency { }
+function Test-LanguageSupportAcrossAllVersions { }
+
+# ❌ INCORRECTO - Sin Verb-Noun o ambiguo
+function Validate-Config { }        # Use Test-, not Validate-
+function CheckConfig { }            # No PascalCase
+function LanguageOK { }             # No Verb-Noun pattern
 ```
 
 ### Funciones Get (Lectores)
 
+**Patrón: `Get-{Noun}` (máximo 2-3 palabras)**
+
 ```powershell
-# ✓ BIEN
-function Get-SupportedVersions { }
-function Get-InstalledLanguages { }
-function Get-ExecutionLogs { }
+# ✓ BIEN - Conciso, pronunciable
+function Get-Versions { }
+function Get-Languages { }
+function Get-Logs { }
+
+# ✓ BIEN - En contextos especializados, puedes ser más específico
+function Get-SupportedVersions { }      # Specialized script: list-versions.ps1
+function Get-InstalledLanguages { }     # Specialized script: check-languages.ps1
+
+# ⚠ VERBOSIDAD
+function Get-AllSupportedOfficeVersionsWithDetails { }
+function Get-InstalledSystemLanguagesWithLocales { }
 
 # ❌ INCORRECTO
-function GetVersions { }
-function FetchLanguages { }
-function ReadLogs { }
+function GetVersions { }            # No PascalCase
+function FetchLanguages { }         # Use Get-, not Fetch-
+function ReadLogs { }               # Use Get-, not Read-
+```
+
+### Variables Locales vs Parámetros
+
+**Variables locales pueden ser más concisas (scope es claro):**
+
+```powershell
+# ✓ BIEN - Parámetros descriptivos (visible externamente)
+function Invoke-Installation {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$ConfigPath,
+        
+        [Parameter(Mandatory=$false)]
+        [int]$MaxRetries = 3
+    )
+    
+    # Variables locales: más concisas OK (scope es el función)
+    $isValid = Test-Config $ConfigPath
+    $retries = 0
+    $logs = @()
+    
+    # Contexto está claro: estamos en Invoke-Installation
+}
+
+# ⚠ VERBOSIDAD - Parámetros demasiado largos
+function Invoke-OfficeInstallationProcessWithValidation {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$ConfigurationFilePath,
+        
+        [Parameter(Mandatory=$false)]
+        [int]$MaximumRetryAttempts = 3
+    )
+}
+
+# ❌ INCORRECTO - Variables ambiguas
+function Process {
+    param([string]$c, [int]$r = 3)
+    
+    # ¿c = config? ¿r = retries?
+}
+```
+
+### Convención por Contexto
+
+```powershell
+# En script especializado: install-office.ps1
+function Install { }                # OK aquí (contexto es claro)
+function Validate { }               # OK aquí
+function Download { }               # OK aquí
+
+# En módulo genérico: OfficeAutomator.psd1
+function Install-Office { }         # Necesario: especificar contexto
+function Validate-Config { }        # Necesario: más descriptivo
+function Download-Tool { }          # Necesario: clarificar qué se descarga
 ```
 
 ---
