@@ -383,6 +383,10 @@ namespace OfficeAutomator.Tests
 
             sm.TransitionTo("SELECT_VERSION");
             sm.TransitionTo("SELECT_LANGUAGE");
+            sm.TransitionTo("SELECT_APPS");
+            sm.TransitionTo("GENERATE_CONFIG");
+            sm.TransitionTo("VALIDATE");
+            sm.TransitionTo("INSTALL_READY");
             sm.TransitionTo("INSTALLING");
 
             // Installation fails
@@ -392,7 +396,8 @@ namespace OfficeAutomator.Tests
             // Rollback
             Assert.True(sm.TransitionTo("ROLLED_BACK"));
 
-            // Retry from beginning
+            // Retry from beginning (must go through INIT)
+            Assert.True(sm.TransitionTo("INIT"));
             Assert.True(sm.TransitionTo("SELECT_VERSION"));
             Assert.Equal("SELECT_VERSION", sm.GetCurrentState());
         }
