@@ -1,6 +1,6 @@
 ```yml
 type: Estado Actual del Proyecto
-updated_at: 2026-04-22 05:30:24
+updated_at: 2026-04-22 05:32:26
 work_package: 2026-04-22-05-21-10-verify-test-execution-environment
 stage: Phase 1 — DISCOVER
 phase: Phase 1 — DISCOVER (EN PROGRESO)
@@ -28,10 +28,12 @@ flow: null
 - [x] Gate Phase 1: APROBADO → Proceder a Phase 4
 
 **Phase 4 Deliverables:**
-- [x] Constraints analysis: setup-infrastructure-constraints.md
+- [x] Constraints analysis (Infrastructure): setup-infrastructure-constraints.md
+- [x] Constraints analysis (Technical): dotnet-installation-constraints.md
 - [x] Architecture decision: Makefile + scripts + global.json (NO Docker)
 - [x] Design decisions documented: D-001 to D-004
 - [x] Validation checkpoints defined: VP-001 to VP-003
+- [x] .NET 8.0 specs, installation methods, idempotency patterns documented
 - [ ] Gate Phase 4: Ready for Phase 5 STRATEGY (detailed plan)?
 
 ---
