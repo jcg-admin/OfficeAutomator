@@ -38,3 +38,6 @@ PSScriptAnalyzerSettings.psd1
 # Test coverage
 coverage/
 .coverage
+
+# Claude Code worktrees (agent isolation)
+.claude/worktrees/
