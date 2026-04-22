@@ -5,52 +5,72 @@ work_package: 2026-04-22-05-21-10-verify-test-execution-environment
 phase: Phase 8 — PLAN EXECUTION
 author: Claude
 status: Borrador
+version: 1.1.0
 ```
 
-# PHASE 8: PLAN EXECUTION — Task Decomposition
+# Task Plan — verify-test-execution-environment (WP 2026-04-22-05-21-10)
 
-## Overview
+> **Generado desde:** `plan/verify-test-execution-environment-plan.md`
+> **Alcance:** 12 tareas atómicas, idempotentes, con criterios observables
+> **Ruta crítica:** T-001 → T-002 → T-003 → T-005 → T-010 → T-011 → T-012
+> **Timeline:** 45-70 minutos (Phase 9 PILOT/VALIDATE)
 
-**IMPORTANT:** This document describes the TASK PLAN for Phases 9-11:
-- **Phase 9 PILOT/VALIDATE:** Execute T-001 to T-011 (file creation + preliminary tests)
-- **Phase 10 IMPLEMENT:** Execute real .NET installation and test suite
-- **Phase 11 TRACK:** Document results
-
-Each task is **idempotent** (run 2x = run 1x) and **verification-driven** (observable criteria, not subjective).
-
-**Total work:** 12 tasks across 3 categories
-- **File creation/verification:** T-001 through T-008 (7 new files + 2 updates, all idempotent)
-- **Preliminary testing:** T-009 through T-011 (component validation, NO real .NET install)
-- **Integration & commit:** T-012 (final verification)
+> **v1.1.0** — Actualizado con idempotencia y DAG completo:
+> - Todas las tareas T-001 a T-012 ahora idempotentes (run 2x = run 1x)
+> - Criterios observables (bash commands, no subjetividad)
+> - DAG visual con batches paralelos y stopping points
+> - Separación clara: Phase 8 (plan) / Phase 9 (validation) / Phase 10 (real install)
 
 ---
 
-## Dependency Graph (DAG)
+---
+
+## Batch Structure
+
+Tareas organizadas en 4 batches ejecutables en paralelo (después del batch crítico B0):
+
+- **B0 — Critical Path** (4 tareas secuenciales): T-001, T-002, T-003, T-005
+- **B1 — Scripts paralelos** (4 tareas en paralelo): T-002, T-003, T-004, T-008
+- **B2 — Testing** (3 tareas secuenciales): T-009, T-010, T-011
+- **B3 — Integration** (1 tarea): T-012
+
+---
+
+## DAG de dependencias (Directed Acyclic Graph)
 
 ```
-T-001 (.editorconfig)
-  ├─→ (no deps)
-
-T-002 (verify-environment.sh)
-T-003 (setup.sh)
-T-004 (cleanup.sh)
-  ├─→ (no deps, parallel)
-  
-  ├─→ T-005 (Makefile) ← DEPENDS ON T-002, T-003
-      └─→ T-006 (global.json) ← DEPENDS ON T-005
-      └─→ T-007 (README.md) ← DEPENDS ON T-005
-      └─→ T-008 (CONTRIBUTING.md) ← DEPENDS ON T-005
-
-T-009 (Test individual scripts) ← DEPENDS ON T-002, T-003, T-004
-  └─→ T-010 (Test Makefile targets) ← DEPENDS ON T-005, T-009
-      └─→ T-011 (Test full idempotency) ← DEPENDS ON T-010
-
-T-012 (Commit & verify) ← DEPENDS ON T-001 through T-011
+T-001 (.editorconfig)  [B0 — paso 1]
+    |
+    v
+T-002 (verify-environment.sh)  [B0 — paso 2]        T-006 (global.json)  [B1 — paralelo]
+    |                                                     |
+    v                                                     |
+T-003 (setup.sh)  [B0 — paso 3]        T-004 (cleanup.sh) [B1 — paralelo]
+    |                                        |
+    v                                        v
+T-005 (Makefile)  [B0 — paso 4]     T-007 (README.md) [B1 — paralelo]
+    |                                        |
+    v                                        v
+T-008 (CONTRIBUTING.md) [B1 — paralelo]
+    |
+    +────────────────────────────┬─────────────────────────┐
+    |                            |                         |
+    v                            v                         v
+T-009 (validate scripts) [B2]   (puede omitirse si urgente)
+    |
+    v
+T-010 (validate Makefile) [B2]
+    |
+    v
+T-011 (validate idempotency) [B2]
+    |
+    v
+T-012 (commit) [B3]
 ```
 
-**Critical path:** T-002 → T-003 → T-005 → T-010 → T-011 → T-012 (6 sequential)
+**Ruta crítica:** T-001 → T-002 → T-003 → T-005 → T-010 → T-011 → T-012 (7 tareas secuenciales = ~50 min)
 
-**Parallelizable:** T-001, T-002, T-003, T-004 can be created in parallel
+**Paralelo después de T-001:** T-006, T-004, T-008 pueden correr mientras T-002/T-003 se ejecutan
 
 ---
 
@@ -343,20 +363,53 @@ T-012 (Commit & verify) ← DEPENDS ON T-001 through T-011
 
 ---
 
+## Stopping Points (Tollgates)
+
+| SP | Tarea | Condición de bloqueo | Acción si falla |
+|----|-------|---------------------|-----------------|
+| **SP-B0** | Pre-T-005 | T-004 debe pasar: `bash -n .editorconfig && echo "OK"` + `test -f .editorconfig && echo "OK"` = 2x OK | Rehacer T-001 |
+| **SP-B1** | Pre-T-008 | T-002, T-003 deben pasar: `test -x scripts/verify-environment.sh && test -x scripts/setup.sh` = ambos OK | Rehacer T-002/T-003 |
+| **SP-B2** | Pre-T-009 | T-005 debe pasar: `make help 2>&1 | grep -q "setup"` = OK | Rehacer T-005 |
+| **SP-B3** | Pre-T-012 | T-011 debe pasar: `grep -q "command -v dotnet" scripts/setup.sh` = OK (idempotency pattern exists) | Rehacer T-011 |
+
+---
+
+## Out-of-Scope
+
+- Instalación real de .NET 8.0 — Phase 10 IMPLEMENT
+- Ejecución de tests contra suite 220+ — Phase 10 IMPLEMENT
+- Optimización de scripts — Phase 11 TRACK (si problemas encontrados)
+- Configuración de CI/CD — Fuera de este WP
+- Documentación de usuario final — Phase 10+ después de verificación
+
+---
+
+## Resumen de progreso
+
+| Batch | Tareas | Estado actual |
+|-------|--------|---------------|
+| **B0 — Critical Path** | T-001, T-002, T-003, T-005 | Pending |
+| **B1 — Parallel setup** | T-004, T-006, T-007, T-008 | Pending |
+| **B2 — Testing** | T-009, T-010, T-011 | Pending |
+| **B3 — Integration** | T-012 | Pending |
+| **Total** | **12 tareas** | **0/12 completadas** |
+
+---
+
 ## Summary
 
-| Category | Tasks | Phase | Idempotent? | Duration | Risk |
-|----------|-------|-------|------------|----------|------|
-| File Creation | T-001 to T-008 | Phase 9 PILOT | ✓ YES (all idempotent) | 30-45 min | Low — validation only |
-| Preliminary Testing | T-009 to T-011 | Phase 9 PILOT | ✓ YES (validation only, no side effects) | 10-15 min | Low — no installation |
-| Integration | T-012 | Phase 9 PILOT | ✓ YES (idempotent git ops) | 5-10 min | Low — branch push |
-| **TOTAL** | **12 tasks** | **Phase 9 PILOT/VALIDATE** | **✓ ALL IDEMPOTENT** | **45-70 min** | **Low** |
+| Categoria | Tareas | Fase | Idempotente? | Duracion |
+|-----------|--------|------|------------|----------|
+| Creacion de archivos | T-001 a T-008 | Phase 9 PILOT | TODAS | 30-45 min |
+| Testing preliminar | T-009 a T-011 | Phase 9 PILOT | TODAS | 10-15 min |
+| Integracion | T-012 | Phase 9 PILOT | SI | 5 min |
+| **TOTAL** | **12 tareas** | **Phase 9 PILOT/VALIDATE** | **100% IDEMPOTENTES** | **45-70 min** |
 
-**CRITICAL CLARIFICATION:**
-- **Phase 8 (COMPLETED):** Created this task-plan with atomic, idempotent, observable tasks
-- **Phase 9 (NEXT):** Execute T-001 to T-012 — file creation + preliminary validation (NO .NET installation)
-- **Phase 10 (AFTER):** Real implementation — execute `make setup` (installs .NET), `make test` (220+ tests)
-- **Phase 11 (FINAL):** Document results and close work package
+**IMPORTANTE:**
+- **Phase 8 (COMPLETADO):** Plan ejecutable con 12 tareas atómicas, idempotentes, verificables
+- **Phase 9 (PROXIMO):** Ejecutar T-001 a T-012 (validacion, SIN instalacion real)
+- **Phase 10 (DESPUES):** `make setup` (instala .NET realmente) + `make test` (220+ tests)
+- **Phase 11 (FINAL):** Documentar resultados y cierre del WP
 
 ---
 
