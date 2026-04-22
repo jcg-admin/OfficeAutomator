@@ -1,110 +1,121 @@
 ```yml
 type: Dirección de Trabajo
-updated_at: 2026-04-21 01:35:00
+updated_at: 2026-04-22 05:10:00
 project: OfficeAutomator
 ```
 
 # FOCUS.md - Dirección Actual de Trabajo
 
-## Dirección General del Proyecto
+## Work Package Actual
 
-OfficeAutomator está en su fase inicial de documentación y análisis.
+**ÉPICA N: Project Structure Cleanup & Validation**
 
----
+**WP ID:** 2026-04-22-04-46-55-project-structure-cleanup
 
-## Épica Actual
-
-**Épica 1: UC Documentation & Analysis**
-
-**Estado:** Stage 1 DISCOVER - COMPLETADO
-
-**Próximo:** Stage 6 SCOPE
+**Estado:** Phase 1 DISCOVER - COMPLETADO
 
 ---
 
-## Trabajo Completado en Stage 1
+## Problema Identificado
 
-Artefactos de descubrimiento:
-- Problem Statement ✓
-- Actors & Stakeholders ✓
-- Discovery Notes ✓
-- Use Case Matrix ✓
-- Analysis Microsoft OCT ✓
+- Root directory contaminado con 8 archivos fuera de lugar
+- README.md con 3 errores de rutas + 8 emojis (violación de convención)
+- 72 work packages en .thyrox/context/work/: 59 del framework THYROX + 13 del proyecto
+- Necesario: limpiar root, corregir docs, eliminar WPs históricos del framework
 
 ---
 
-## Trabajo Completado en Stage 6 SCOPE
+## Análisis Completado en Phase 1 DISCOVER
 
-**Estado:** COMPLETADO - Awaiting stakeholder approval
+1. **project-structure-cleanup-analysis.md** ✓
+   - 8 archivos a mover/eliminar
+   - 3 errores en README
+   - 15 archivos analizados
 
-Artefactos de scope:
-1. **scope-statement.md** - Alcance formal IN/OUT
-2. **language-compatibility-matrix.md** - Validación cruzada versión×idioma×app
-3. **precise-definitions.md** - 3 versiones, 2 idiomas base, 5 exclusiones
-4. **stage-6-exit-criteria.md** - Checklist de cumplimiento
+2. **Deep-Review 1: Validación Adversarial** ✓
+   - Corrigió 4 decisiones críticas
+   - Directory.Build.props → MANTENER en root (no mover)
+   - nuget.config → MANTENER en root (no mover)
+   - fix-failing-tests.ps1 → ELIMINAR (no mover a scripts/)
+   - .txt files → ARCHIVAR en WPs (no eliminar)
 
-**Decisiones finalizadas:**
-- Versiones: 2024, 2021, 2019 (LTSC, soporte vigente)
-- Idiomas: es-ES, en-US (base v1.0.0)
-- Exclusiones: Teams, OneDrive, Groove, Lync, Bing
-- Restricción: Máximo 2 idiomas simultáneos
-- Matriz de compatibilidad: Validada para UC-004
+3. **Risk Register** ✓
+   - 4 riesgos identificados con mitigaciones
+   - R-001: Pérdida de contenido (Baja probabilidad, Alto impacto)
+   - R-002: Ruptura de referencias (Media probabilidad, Medio impacto)
+   - R-003: CI/CD paths (Baja probabilidad, Alto impacto)
+   - R-004: Usuario confundido (Media probabilidad, Bajo impacto)
 
-**Riesgos identificados:** 5 riesgos + mitigaciones
-**Timeline:** Stages 7-11 (3-4 días)
-
----
-
-## Trabajo Pendiente (Stage 7+)
-
-1. **Próxima sesión (hoy/mañana):**
-   - Stage 7: DESIGN/SPECIFY - Diseño técnico de cada UC
-   - Diagrama de arquitectura
-   - Especificación de funciones PowerShell
-   - Flujos de datos
-
-2. **Después:**
-   - Stage 10: IMPLEMENT - Codificación (4-6 horas)
-   - Stage 11: TRACK/QA - Testing (2-3 horas)
-   - v1.0.0 RELEASE
+4. **Final Corrected Decisions** ✓
+   - 8 decisiones de archivo (root cleanup)
+   - 66 WPs a ELIMINAR vs 6 WPs a MANTENER
+   - Corte en: 2026-04-21-01-30-00-uc-documentation (inicio del proyecto)
+   - 4 correcciones en README
+   - Orden de ejecución para Phase 8
 
 ---
 
-## Hito Más Cercano
+## Decisiones Finalizadas
 
-**Stage 7 DESIGN:** Especificación detallada de todas las funciones
+### Root Directory (8 cambios)
 
-**Fecha estimada:** Hoy 2026-04-21 (60 min)
+| Archivo | Decisión | Razón |
+|---------|----------|-------|
+| EXECUTION_GUIDE.md | Mover a docs/ | Documentación proyecto |
+| TEST_EXECUTION_REPORT.md | Mover a docs/ | Reportes testing |
+| ESTRUCTURA_PROYECTO.txt | Mover a WP histórico | Archivar con trazabilidad |
+| PROYECTO_ESTRUCTURA_ACTUAL.txt | Mover a WP histórico | Snapshot histórico |
+| SPRINT1-CORRECTION-COMPLETE.txt | Mover a WP histórico | Cierre de sprint |
+| fix-failing-tests.ps1 | ELIMINAR | Script temporal sin referencias |
+| Directory.Build.props | MANTENER en root | Estándar .NET, infraestructura |
+| nuget.config | MANTENER en root | Config NuGet repositorio-wide |
 
-**Luego:** Stage 10 IMPLEMENT mañana (4-6 horas)
+### Work Packages (72 → 6)
+
+**A ELIMINAR: 66 WPs**
+- 59 THYROX framework (2026-03-27 a 2026-04-20)
+- 1 test WP (test-pdca-worktree)
+- 2 design-specification abortadas
+- 4 option-b analysis
+
+**A MANTENER: 6 WPs**
+1. 2026-04-21-01-30-00-uc-documentation
+2. 2026-04-21-03-00-00-scope-definition
+3. 2026-04-21-06-15-00-design-specification-correct
+4. 2026-04-21-11-15-00-project-structure-reorganization
+5. 2026-04-22-04-46-55-project-structure-cleanup (actual)
+6. (+1 futuro si hay más fases)
+
+### README.md (4 cambios)
+
+1. Línea 31, 35: `OfficeAutomator/OfficeAutomator.Core` → `src/OfficeAutomator.Core`
+2. Líneas 126-129: `OfficeAutomator.Core/` → `docs/`
+3. Línea 259: "All documentation..." → "Documentation is in docs/"
+4. 8 emojis checkmark removidos
 
 ---
 
-## Principios de Trabajo
+## Próximos Pasos
 
-1. Thyrox SKILL.md 12 stages (no saltar)
-2. Commits convencionales (feat/fix/docs/test/chore)
-3. Persistencia: .thyrox/context/{focus,now,work,decisions,errors}
-4. Estándares: REGLAS_DESARROLLO_OFFICEAUTOMATOR.md
-5. Diagramas: Mermaid tema dark, sin emojis
-6. Convenciones: naming, versioning, semver
+**Phase 8: PLAN EXECUTION** - Crear tareas atómicas (T-NNN)
+- Mover archivos a docs/
+- Mover .txt a WPs históricos
+- Eliminar fix-failing-tests.ps1
+- Corregir README.md
+- Eliminar 66 WPs
+- Validar estructura final
+
+**Estimado:** 1-2 horas de ejecución
 
 ---
 
-## Ahora Mismo (Session Actual)
+## Riesgos (Mitigados)
 
-**Stage completado:** 6 SCOPE ✓
-**Estado:** LISTO PARA APROBACION
-**Próximo:** `/thyrox:plan` → Stage 7 DESIGN
+TODOS los riesgos de ejecución son BAJOS gracias a git:
+- Pérdida de contenido: Git preserva todo
+- Ruptura de links: Búsqueda exhaustiva incluida
+- CI/CD paths: Scripts validados post-movimiento
+- Usuario confundido: README actualizado
 
-**Archivos de Stage 6:**
-```
-.thyrox/context/work/2026-04-21-03-00-00-scope-definition/
-├── scope-statement.md
-├── language-compatibility-matrix.md
-├── precise-definitions.md
-└── stage-6-exit-criteria.md
-```
-
-**Total artefactos Stage 6:** 50 KB, 4 documentos, ~3,500 líneas
+**Status:** LISTO PARA PHASE 8 PLAN EXECUTION
 
