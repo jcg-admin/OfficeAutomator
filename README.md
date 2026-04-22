@@ -22,6 +22,50 @@ make test     # Run all tests
 
 For detailed setup instructions, see [CONTRIBUTING.md](docs/CONTRIBUTING.md).
 
+## Three-Layer Architecture
+
+OfficeAutomator uses a three-layer architecture separating concerns by responsibility:
+
+### Layer 0: System Setup (Bash)
+
+**Files:** `setup.sh`, `verify-environment.sh`, `Makefile`
+
+Install .NET SDK and validate system prerequisites:
+
+```bash
+./setup.sh              # Install .NET 8.0 SDK
+./verify-environment.sh # Validate prerequisites
+make setup              # Or use Makefile target
+```
+
+**Success:** Environment ready for Layer 1.
+
+### Layer 1: Automation (PowerShell)
+
+**Files:** `/scripts/*.ps1`
+
+Orchestrate Use Cases after environment is ready:
+
+```powershell
+pwsh
+. scripts/Install-OfficeAutomator.ps1
+Invoke-OfficeAutomator
+```
+
+**Responsibility:** Load C# DLL (Layer 2) via reflection and drive UCs.
+
+### Layer 2: Core Logic (C#)
+
+**Files:** `src/OfficeAutomator.Core/` (DLL)
+
+Production-ready implementation:
+- 10 core classes with 100% type safety
+- 220+ tests (unit, integration, E2E)
+- 19 error codes with retry logic
+- Loaded automatically by Layer 1
+
+---
+
 ### Prerequisites
 
 - **.NET SDK 8.0** (required)
@@ -336,6 +380,32 @@ dotnet test
 - **Classes:** 10 production-ready
 
 ## Troubleshooting
+
+### Build & Cache Issues
+
+**"Tests fail locally but pass in CI"**  
+→ The build cache may be stale. Run:
+```bash
+make clean && make test
+# Or explicitly:
+dotnet clean && dotnet build && dotnet test
+```
+
+**"Unexpected test failures with correct code"**  
+→ Stale compilation artifacts (.dll files) may be causing false failures:
+```bash
+dotnet clean           # Delete bin/, obj/ directories
+dotnet build           # Fresh compilation
+dotnet test            # Run tests with new IL
+```
+
+**"IDE shows different results than CLI"**  
+→ IDE may use its own cache. Verify with CLI:
+```bash
+dotnet test --no-build
+```
+
+### Setup Issues
 
 **"dotnet: command not found"**
 → Install .NET SDK 8.0 from https://dotnet.microsoft.com/download/dotnet/8.0
