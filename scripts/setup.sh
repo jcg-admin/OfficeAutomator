@@ -12,14 +12,15 @@ if command -v dotnet &> /dev/null; then
     fi
 fi
 
-# Install from direct tarball (avoids installer script complexity)
+# Install from Microsoft Visual Studio download server (stable, verified)
+# See: docs/DOTNET_SDK_INSTALLATION_NOTES.md for research and rationale
 echo "Installing .NET SDK 8.0..."
 export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 export DOTNET_CLI_TELEMETRY_OPTOUT=true
 
-DOTNET_VERSION="8.0.420"
+DOTNET_VERSION="8.0.110"
 DOTNET_FILE="dotnet-sdk-${DOTNET_VERSION}-linux-x64.tar.gz"
-DOTNET_URL="https://builds.dotnet.microsoft.com/dotnet/Sdk/${DOTNET_VERSION}/${DOTNET_FILE}"
+DOTNET_URL="https://download.visualstudio.microsoft.com/download/pr/9d4db360-5016-4be5-9783-cbf515a7d011/17e0019da97f0f57548a2d7a53edcf28/${DOTNET_FILE}"
 DOTNET_ROOT="$HOME/.dotnet"
 TEMP_FILE=$(mktemp)
 
