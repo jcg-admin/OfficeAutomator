@@ -285,6 +285,36 @@ function validate_config_file() {
 
 ## ESTRUCTURA DE SCRIPTS
 
+### Script Design Philosophy: One Thing Well
+
+Follow the Unix principle: each script does ONE thing well.
+
+**Signal for Script Splitting:**
+
+| Symptom | Action |
+|---------|--------|
+| Script > 200 lines | Split into separate scripts + orchestrator |
+| Multiple distinct functions (5+) | Separate by responsibility |
+| Functions with names like `do_X_and_Y_and_Z` | Split into `do_X()`, `do_Y()`, `do_Z()` |
+| Comments like "# Now doing something unrelated" | Move to separate script |
+
+**Example: Instead of `mega-setup.sh`**
+
+```
+setup/
+├── detect-bash.sh           ← Check Bash version, set PATH
+├── detect-dependencies.sh   ← Find or report missing tools
+├── download-tools.sh        ← Fetch Office Deployment Tool
+├── verify-download.sh       ← Check SHA256, permissions
+└── bootstrap.sh             ← Orchestrate all 4 scripts
+```
+
+Each script is:
+- Testeable independently
+- Reusable from other orchestrators
+- Clear responsibility
+- Shorter function names OK (context is the script filename)
+
 ### Layout Estándar
 
 ```bash
@@ -430,28 +460,180 @@ function setup_file() {
 
 ## NOMBRES REVELAN INTENCIÓN
 
+### Criterios de Balance
+
+Nombres en Bash deben equilibrar:
+
+| Criterio | Target | Nota |
+|----------|--------|------|
+| **Revela intención** | Claro | Contexto mínimo necesario, no dissertación |
+| **Pronunciable** | 4-5 sílabas máximo | Nombres largos = trabalenguas imposibles |
+| **Buscable** | Específico | Grep-friendly, pero no excesivamente largo |
+| **Scope apropiado** | Variable | Variables de función pueden ser más cortas |
+| **POSIX compliant** | Requerido | Underscore-safe, sin caracteres especiales |
+
+### Nombres de Funciones
+
+Formato: `{verb}_{object}` (máximo 3 palabras)
+
 ```bash
-# INCORRECTO
-function v() {
-    [[ -f "f.xml" ]] && return 0 || return 1
-}
+# INCORRECTO - Demasiado verboso, trabalenguas
+function validate_configuration_xml_exists() { ... }
+function get_supported_office_versions() { ... }
 
-x=$(v)
-if [[ $x -eq 0 ]]; then
-    echo "OK"
-fi
+# CORRECTO - Conciso pero claro, pronunciable
+function check_config() { ... }
+function get_versions() { ... }
 
-# CORRECTO
-function validate_configuration_xml_exists() {
-    local config_file="./config.xml"
-    [[ -f "$config_file" ]]
-}
+# CONTEXTO IMPORTA - En scripts especializados, puedes ser más específico
+# script: setup-office.sh
+function install_office() { ... }
 
-config_is_valid=$(validate_configuration_xml_exists)
-if [[ $config_is_valid -eq 0 ]]; then
-    echo "Configuration file validation passed"
-fi
+# script: detect-environment.sh  
+function check_bash() { ... }
 ```
+
+### Variables de Función con Prefijos POSIX-Safe
+
+Usa prefijos cortos para variables dentro de funciones. Evita colisiones de nombres y mejora legibilidad.
+
+```bash
+# Patrón: {function_prefix}_{variable_name}
+
+# INCORRECTO - Sin prefijo, riesgo de colisión
+function check_write_permission() {
+    local file="$1"
+    local result
+    
+    [[ -w "$file" ]]
+}
+
+# CORRECTO - Prefijo corto + variable descriptiva
+function check_write_permission() {
+    local _write_file="$1"
+    local _write_ok
+    
+    _write_ok=$([[ -w "$_write_file" ]] && echo 1 || echo 0)
+    [[ $_write_ok -eq 1 ]]
+}
+```
+
+### Ejemplos de Convención de Prefijos
+
+Por función, usa 1-2 caracteres + underscore:
+
+```bash
+# check_sudo_access()
+function check_sudo_access() {
+    local _sudo_user="$1"
+    local _sudo_cmd="$2"
+    
+    sudo -l -n "$_sudo_cmd" &>/dev/null
+    return $?
+}
+
+# validate_environment()
+function validate_environment() {
+    local _val_bash_version="${BASH_VERSINFO[0]}"
+    local _val_ok=1
+    
+    [[ $_val_bash_version -ge 4 ]] || _val_ok=0
+    return $((!_val_ok))
+}
+
+# get_file_hash()
+function get_file_hash() {
+    local _hash_file="$1"
+    local _hash_result
+    
+    _hash_result="$(sha256sum "$_hash_file" | awk '{print $1}')"
+    echo "$_hash_result"
+}
+
+# download_file()
+function download_file() {
+    local _dl_url="$1"
+    local _dl_path="$2"
+    local _dl_retries=3
+    
+    while [[ $_dl_retries -gt 0 ]]; do
+        curl -o "$_dl_path" "$_dl_url" && return 0
+        ((_dl_retries--))
+        sleep 2
+    done
+    
+    return 1
+}
+```
+
+### Nombres Globales vs. Locales
+
+```bash
+# GLOBAL - Función propósito general, nombre completo OK
+function validate_bash_version() {
+    [[ "${BASH_VERSINFO[0]}" -ge 4 ]]
+}
+
+# LOCAL - Función especializada, nombre conciso OK
+# (en script: verify-environment.sh)
+function check_bash() {
+    validate_bash_version || return 1
+}
+
+# Variable global - SCREAMING_SNAKE_CASE
+readonly MAX_RETRIES=3
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Variable local - lowercase_with_underscores
+function download_with_retry() {
+    local url="$1"
+    local output="$2"
+    local retry_count=0
+    
+    # ...
+}
+
+# Variable local con prefijo (si necesita aislamiento de scope)
+function process_files() {
+    local _proc_dir="$1"
+    local _proc_count=0
+    
+    for _proc_file in "$_proc_dir"/*; do
+        ((_proc_count++))
+    done
+    
+    echo "$_proc_count"
+}
+```
+
+### Searchability con Nombres Cortos
+
+Los prefijos POSIX-safe son buscables y evitan falsos positivos:
+
+```bash
+# Búsqueda: grep "_sudo_" → solo variables de check_sudo_access()
+# Búsqueda: grep "_dl_" → solo variables de download_file()
+# Búsqueda: check_bash → exacta y rápida (no hay check_bash_version, etc.)
+```
+
+### Espíritu Unix: Cada Script Hace Una Cosa Bien
+
+No construyas `mega-bootstrap.sh` con 500 líneas. En lugar de eso, separa responsabilidades:
+
+```
+bootstrap/
+├── detect-environment.sh    ← Detecta Bash version, dependencias
+├── install-dependencies.sh  ← Instala herramientas necesarias
+├── configure-paths.sh       ← Configura PATH y variables globales
+├── validate-installation.sh ← Valida que todo está OK
+└── main.sh                  ← Orquesta los anteriores
+```
+
+Cada script:
+- Hace UNA cosa bien
+- Nombres de funciones dentro son más concisos (porque el contexto es el script)
+- Reutilizable desde otros scripts
+- Testeable de forma independiente
 
 ---
 
