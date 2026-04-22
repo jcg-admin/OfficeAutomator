@@ -599,7 +599,72 @@ Riesgos documentados (ver scope-statement.md):
 
 ---
 
-**Última actualización:** 2026-04-21 03:20:00
-**Próxima revisión:** Después de Stage 7
-**Status general:** ON TRACK
+---
+
+## Sesión Actual (16:30 - 16:50): Development Guidelines — COMPLETADAS
+
+**Status:** ✅ **4 GUÍAS DE DESARROLLO CREADAS Y COMMITTED**
+
+**Guidelines Creadas (Professional Language Only):**
+
+1. ✅ `.thyrox/guidelines/layer0-bash.instructions.md` (1,100+ lines)
+   - Bash 4.0+ conventions (indentation, naming)
+   - Clean Code Principles (SRP, DRY, KISS, Fail-Fast)
+   - BATS testing framework
+   - Error handling patterns (try-catch, exit codes)
+   - Bash script flowchart examples
+   - Anti-patterns and quality checklist
+
+2. ✅ `.thyrox/guidelines/layer1-powershell.instructions.md` (900+ lines)
+   - PowerShell 5.1+ conventions (Verb-Noun naming)
+   - Comment-Based Help format
+   - Parameter validation (ValidateScript, ValidateSet, etc.)
+   - Pipeline support and error handling
+   - Pester testing patterns
+   - Anti-patterns specific to PowerShell
+
+3. ✅ `.thyrox/guidelines/layer2-csharp.instructions.md` (1,000+ lines)
+   - C# (.NET 8.0) conventions (indentation, naming)
+   - Clean Code Principles (SRP, Reveal Intent, Fail-Fast)
+   - XML documentation and class structure
+   - TDD patterns (Red-Green-Refactor)
+   - Async/await patterns
+   - Anti-patterns and quality checklist
+
+4. ✅ `.thyrox/guidelines/diagrams-uml-mermaid.instructions.md` (800+ lines)
+   - Mermaid dark theme configuration
+   - **STRICT: NO EMOJIS OR DECORATIVE ICONS**
+   - Three-layer architecture diagrams
+   - Class diagrams for C# layers
+   - Flowchart patterns (UC flows, validation, retry loops)
+   - **Bash-specific diagram examples** (script flowcharts, function sequences, error handling)
+   - Sequence and state machine diagrams
+   - Semantic color standards
+   - Quality checklist for diagrams
+
+**Key Features (All Guidelines):**
+- Professional language only (NO "REGLA DE ORO", "Principio Unix", etc.)
+- Structure: Philosophy → Conventions → Clean Code → Examples → Anti-patterns → Checklist
+- NO emojis or decorative symbols (Mermaid guide is especially strict)
+- Language-specific patterns and best practices
+- Testing approaches for each language
+- Real-world examples from OfficeAutomator three-layer architecture
+
+**Commit Details:**
+- Commit: `docs(guidelines): add development guides for all three layers`
+- Files: 4 files, 3,405 insertions
+- Hash: (git log output above)
+
+**Integration with Project:**
+- Guidelines automatically loaded in `.claude/` configuration
+- Referenced in CLAUDE.md as `@.thyrox/guidelines/`
+- Applicable to all code generation and documentation in this project
+
+**Status:** ✅ **GUIDELINES COMPLETED AND COMMITTED — READY FOR PHASE 4**
+
+---
+
+**Última actualización:** 2026-04-22 16:50:00
+**Próxima revisión:** Después de Phase 4 CONSTRAINTS
+**Status general:** ON TRACK — GUIDELINES COMPLETE
 stage_sync_required: true
