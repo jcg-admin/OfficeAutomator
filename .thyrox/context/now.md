@@ -1,11 +1,12 @@
 ```yml
 type: Estado Actual del Proyecto
-updated_at: 2026-04-22 11:15:00
+updated_at: 2026-04-22 11:25:00
 work_package: 2026-04-22-07-59-20-documentation-audit
-stage: Phase 1 — DISCOVER (COMPLETED — VERIFIED)
-phase: Phase 1 — DISCOVER
+stage: Phase 2 — BASELINE (IN PROGRESS)
+phase: Phase 2 — BASELINE
 flow: null
 calibration_status: APPROVED SP-01 (68% calibration ratio, Bash-verified)
+baseline_status: Metrics defined — Ready for Phase 3 ANALYZE
 ```
 
 # NOW.md - Estado Actual
@@ -44,7 +45,29 @@ calibration_status: APPROVED SP-01 (68% calibration ratio, Bash-verified)
 - ✅ documentation-audit-calibration-results.md (47.5% ratio, CAD domain analysis)
 - ✅ documentation-audit-calibration-results-CORRECTED.md (68% ratio, Bash-verified, SP-01 APROBADO)
 
-**Next Step:** Avanzar a Phase 2 MEASURE (Phase 2: BASELINE + métricas de documentación)
+**Sesión Actual (11:25+): Phase 2 BASELINE — Recopilación de datos y definición de métricas**
+
+**Status:** ⏳ **PHASE 2 BASELINE — Baseline metrics defined**
+- Recopilados datos sobre estado actual de documentación
+- Definidas baseline metrics (cobertura, accesibilidad, completitud)
+- Establecidos success criteria para closure del WP
+- 5 risks linked to documentation improvement targets
+
+**Baseline Metrics (Current State):**
+- Coverage: 70% (13/23 requisitos) — Target: 90%+
+- Accessibility: 50% (limited navigation) — Target: 80%+
+- Completitud: 57% (average) — Target: 85%+
+- User-facing patterns visibility: 0% (Phase 12 patterns in .thyrox/) — Target: 100%
+
+**Deliverables (Phase 2 + Phase 1 + Calibration):**
+- ✅ documentation-audit-analysis.md
+- ✅ documentation-audit-risk-register.md
+- ✅ documentation-structure-option-b-analysis.md
+- ✅ objective-coverage-alignment-analysis.md
+- ✅ documentation-audit-calibration-results-CORRECTED.md (SP-01 APROBADO 68%)
+- ✅ documentation-baseline-metrics.md (Phase 2 baseline + success criteria)
+
+**Next Step:** Avanzar a Phase 3 ANALYZE (diagnose root causes of documentation gaps)
 
 ---
 
