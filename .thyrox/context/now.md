@@ -1,13 +1,14 @@
 ```yml
 type: Estado Actual del Proyecto
-updated_at: 2026-04-22 08:51:13
+updated_at: 2026-04-22 15:35:00
 work_package: 2026-04-22-07-59-20-documentation-audit
-stage: Phase 2 — BASELINE (REMEDIATION COMPLETED)
-phase: Phase 2 — BASELINE
+stage: Phase 3 — DIAGNOSE (ROOT CAUSE ANALYSIS COMPLETED)
+phase: Phase 3 — DIAGNOSE
 flow: null
-calibration_status: APPROVED SP-01 (68% calibration ratio, Bash-verified)
-baseline_status: REMEDIATION COMPLETADA — Esperando re-calibración (65-75% expected)
-remediation_approach: Opción A /loop — Correcciones quirúrgicas aplicadas (T-001 a T-005)
+phase2_status: REMEDIATION COMPLETADA — Re-calibration executed (80% ratio achieved, SP-02 PASSED)
+phase3_status: ROOT CAUSE ANALYSIS COMPLETADA — Ishikawa diagrams for 5 CAD domains
+diagnosis_results: 5 causa raíz primarias identified, 21 remediation tasks prioritized
+next_action: Phase 4 CONSTRAINTS — Document technical/business constraints preventing remediation
 ```
 
 # NOW.md - Estado Actual
@@ -97,6 +98,62 @@ remediation_approach: Opción A /loop — Correcciones quirúrgicas aplicadas (T
 - Next step: Re-ejecutar agentic calibration workflow OR proceed to Phase 3 DIAGNOSE
 
 **Gate Decision:** ✅ **REMEDIATION COMPLETADA — READY FOR RE-CALIBRATION**
+
+---
+
+**Sesión Actual (15:10 - 15:35): Phase 3 DIAGNOSE — Root Cause Analysis COMPLETADO**
+
+**Status:** ✅ **ISHIKAWA ROOT CAUSE ANALYSIS EXECUTED** — 5 CAD domains analyzed
+
+**Phase 3 Deliverable:**
+- ✅ documentation-audit-diagnosis-ishikawa.md (comprehensive root cause analysis)
+
+**Diagnosis Results by Domain:**
+
+| Dominio | Score | Target | Gap | Causa Raíz Primaria | Criticidad |
+|---------|-------|--------|-----|-------------------|-----------|
+| **Cobertura** | 81.7% | 90% | +13.8% | PROCESS: Discontinuidad Phase 1→2 | ALTA |
+| **Completitud** | 78.3% | 85% | +35% | MATERIALS: Dispersión de 7 dominios + Error Codes = 0% | CRÍTICA |
+| **Accesibilidad** | 65% | 80% | +21.7% | MATERIALS: Phase 12 patterns hidden + README scattered | ALTA |
+| **Viabilidad** | 56.7% | 75% | +43.3% | PROCESS: OPCIÓN B deferred + circular gate dependency | CRÍTICA |
+| **Riesgos** | 70% | 75% | +5% | PROCESS: Risk Register stale | MEDIA |
+
+**Critical Actions Identified:**
+- 🔴 **T-017 (IMMEDIATE):** Propagate Phase 12 patterns NOW (not deferred to Phase 12)
+  - Resolves: Accesibilidad, Viabilidad circular dependency
+  - Expected gap closure: +15pp accesibilidad, +18.3pp viabilidad
+- 🔴 **T-018:** Update Risk Register with Phase 2 findings (re-assess R-001 to R-005)
+- 🔴 **T-019:** Clarify gate circular dependency in exit-conditions.md
+
+**Remediation Tasks Prioritized (21 total: T-006 to T-026):**
+
+**CRÍTICAS (Execute Phase 3):**
+- T-017: Propagate Phase 12 patterns NOW
+- T-018: Update Risk Register
+- T-019: Clarify gate timing
+
+**ALTAS (Execute Phase 3-4):**
+- T-006: Re-verify UC-004, UC-005 completitud
+- T-007: Map 23 requisitos → CUBIERTO/SUPERFICIAL matrix
+- T-008: Consolidate requisitos in README
+- T-009: Create Error Code Reference (0% → 100%)
+- T-013: Redesign README navigation
+
+**MEDIANAS (Execute Phase 4-5):**
+- T-016: Cost-benefit OPCIÓN A vs OPCIÓN B
+- T-010: Expand Troubleshooting (60% → 85%)
+- T-011: Strengthen Contributing (50% → 85%)
+- T-012: Create Configuration Examples
+- T-014: Consolidate TOC
+- T-015: Expose Phase 12 patterns to users
+- T-020: Re-assess Phase 1 risks
+- T-021: Link mitigation plans to Risk Register
+
+**Gate SP-03 (Phase 3→4):** READY TO EVALUATE
+- ✅ Root cause analysis complete and documented
+- ✅ Ishikawa diagrams for all 5 domains (PEOPLE, PROCESS, MATERIALS, METHODS, ENVIRONMENT, MEASUREMENTS)
+- ✅ Causa raíz primaria identified and remediation path clear
+- ⏳ Pending: Approval to advance to Phase 4 CONSTRAINTS
 
 **Sesión Actual (14:40 - 14:52): Phase 2 BASELINE — POST-REMEDIATION RECALIBRATION EJECUTADA**
 
