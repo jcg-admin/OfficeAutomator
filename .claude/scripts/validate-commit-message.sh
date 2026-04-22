@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # validate-commit-message.sh — PreToolUse hook para Bash(git commit *)
-# Valida que git commit use Conventional Commits (I-005)
+# Valida que git commit demuestre los cambios realizados
 # Input: JSON via stdin con tool_name y tool_input.command
 # Output: JSON via stdout con permissionDecision
 
@@ -33,12 +33,20 @@ if [ -z "$MSG" ]; then
   exit 0
 fi
 
-# Validar formato Conventional Commits
-PATTERN='^(feat|fix|refactor|docs|chore|test|perf)(\(.+\))?: .{1,72}$'
+# Validar que el mensaje sea descriptivo (minimo 10 caracteres)
+# No exigir prefijo type(scope) estricto - lo importante es que demuestre los cambios
 FIRST_LINE=$(echo "$MSG" | head -1)
+MSG_LENGTH=${#FIRST_LINE}
 
-if ! echo "$FIRST_LINE" | grep -qP "$PATTERN"; then
-  REASON="Commit message no cumple Conventional Commits (I-005). Formato requerido: type(scope): description (max 72 chars). Tipos validos: feat|fix|refactor|docs|chore|test|perf. Mensaje recibido: \"$FIRST_LINE\""
+if [ "$MSG_LENGTH" -lt 10 ]; then
+  REASON="Commit message muy corto. Debe tener al menos 10 caracteres y describir los cambios realizados. Mensaje recibido: \"$FIRST_LINE\""
+  echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"reason\":\"$REASON\"}}"
+  exit 0
+fi
+
+# Validar que no este vacio o sea solo whitespace
+if ! echo "$FIRST_LINE" | grep -qE '[a-zA-Z0-9]'; then
+  REASON="Commit message debe contener caracteres alfanumericos descriptivos"
   echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"reason\":\"$REASON\"}}"
   exit 0
 fi
