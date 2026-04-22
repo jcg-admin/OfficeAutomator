@@ -56,13 +56,14 @@ flow: null
 
 **Phase 8 Deliverables:**
 - [x] Task plan: verify-test-execution-environment-task-plan.md
-- [x] 12 atomic tasks defined (T-001 to T-012)
+- [x] 12 atomic tasks defined (T-001 to T-012) — ALL IDEMPOTENT
 - [x] DAG (Directed Acyclic Graph) documented with dependencies
-- [x] Trazabilidad: each task has done criteria, risks, notes
-- [x] Task categories: File Creation (T-001-T-008), Testing (T-009-T-011), Integration (T-012)
-- [x] Critical path identified: 6 sequential tasks, parallelizable sections noted
-- [x] Timeline estimate: 50-85 minutes Phase 8
-- [ ] Gate Phase 8: Ready for Phase 10 IMPLEMENT?
+- [x] Trazabilidad: each task has observable criteria (bash/grep commands, not subjective)
+- [x] Task categories: File Creation (T-001-T-008), PILOT Testing (T-009-T-011), Integration (T-012)
+- [x] Idempotency guarantee: All tasks designed to run 2x with identical outcome
+- [x] Phase separation: Phase 8 (plan) / Phase 9 (validation) / Phase 10 (real install)
+- [x] Timeline estimate: Phase 9 = 45-70 minutes (PILOT validation only, no installation)
+- [x] Gate Phase 8: APROBADO → Ready for Phase 9 PILOT/VALIDATE
 
 ---
 
