@@ -9,10 +9,20 @@ status: Partial Success
 
 # Phase 10 — IMPLEMENT Execution Log
 
-## Command Executed
+## Commands Executed
 
+### Attempt 1: Installer Script
 ```bash
 make setup
+# Used: curl | bash -s -- --channel 8.0 --install-dir ~/.dotnet
+# Result: HTTP 503 from builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.sh
+```
+
+### Attempt 2: Direct Tarball Download
+```bash
+make setup
+# Updated setup.sh to use: https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.420/dotnet-sdk-8.0.420-linux-x64.tar.gz
+# Result: HTTP 503 from same server (infrastructure-wide issue)
 ```
 
 ## Results
@@ -53,6 +63,23 @@ make: *** [Makefile:16: install-sdk] Error 22
 $ curl -I https://dot.net/v1/dotnet-install.sh
 HTTP/1.1 503 Service Unavailable
 ```
+
+## Infrastructure Analysis
+
+### Microsoft .NET Server Status
+
+**Domain:** builds.dotnet.microsoft.com  
+**Endpoints tested:**
+1. Installer script: https://builds.dotnet.microsoft.com/dotnet/scripts/v1/dotnet-install.sh
+2. Binary tarball: https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.420/dotnet-sdk-8.0.420-linux-x64.tar.gz
+
+**Response for both endpoints:** HTTP/2 503 Service Unavailable
+
+**Diagnosis:** Infrastructure-wide outage affecting ALL .NET SDK downloads from Microsoft
+
+**Implication:** This is NOT a code issue, NOT a network connectivity issue (pre-flight checks pass), NOT a URL/endpoint issue. This is a temporary Microsoft infrastructure failure.
+
+---
 
 ## Analysis
 
@@ -102,21 +129,33 @@ $ make setup
 
 ### To retry Phase 10 IMPLEMENT:
 
-```bash
-# Wait for Microsoft server recovery
-sleep 300  # Wait 5 minutes
+Both download approaches (installer script and tarball) are blocked by HTTP 503 from Microsoft's infrastructure. Retry when server recovers:
 
-# Retry (idempotent, safe to run multiple times)
+```bash
+# Check server health
+curl -I https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.420/dotnet-sdk-8.0.420-linux-x64.tar.gz
+
+# When response is HTTP 200 (not 503), retry
 make setup
 ```
 
-### Alternative: Manual .NET Installation
+Current setup.sh uses direct tarball approach (more atomic, fewer HTTP requests).
 
-If server continues to fail, developers can manually install .NET 8.0:
+### Alternative: Manual .NET Installation (For Development)
 
-**Linux:**
+If Microsoft servers remain unavailable, developers can manually install .NET 8.0:
+
+**Linux (from alternative source):**
 ```bash
+# Option 1: Using dot.net redirect (same endpoint, alternate domain)
 curl -fsSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 8.0
+
+# Option 2: Direct install via apt (if available on system)
+sudo apt-get update
+sudo apt-get install -y dotnet-sdk-8.0
+
+# Option 3: Docker (if native install impossible)
+docker run -it mcr.microsoft.com/dotnet/sdk:8.0 bash
 ```
 
 **macOS:**
@@ -127,6 +166,31 @@ brew install dotnet-sdk
 **Windows:**
 ```powershell
 winget install Microsoft.DotNet.SDK.8
+```
+
+### Automated Retry Strategy (For Production)
+
+For CI/CD pipelines, setup.sh should implement exponential backoff:
+
+```bash
+RETRY_COUNT=0
+MAX_RETRIES=3
+WAIT_SECONDS=60
+
+while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+    if make setup; then
+        exit 0
+    fi
+    
+    RETRY_COUNT=$((RETRY_COUNT + 1))
+    if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+        echo "Retry in ${WAIT_SECONDS}s..."
+        sleep $WAIT_SECONDS
+        WAIT_SECONDS=$((WAIT_SECONDS * 2))
+    fi
+done
+
+exit 1  # Failed after retries
 ```
 
 ## Next Steps
