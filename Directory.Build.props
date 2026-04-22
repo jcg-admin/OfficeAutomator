@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Centralized build output paths -->
+  <PropertyGroup>
+    <!-- All bin/ outputs go to project root /bin -->
+    <BaseOutputPath>$(MSBuildThisFileDirectory)bin\$(MSBuildProjectName)\</BaseOutputPath>
+    
+    <!-- All obj/ temporals go to project root /obj -->
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    
+    <!-- Ensure paths are absolute -->
+    <BaseOutputPathIsAbsolute>true</BaseOutputPathIsAbsolute>
+    <BaseIntermediateOutputPathIsAbsolute>true</BaseIntermediateOutputPathIsAbsolute>
+  </PropertyGroup>
+</Project>
