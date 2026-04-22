@@ -1,5 +1,7 @@
 using Xunit;
 using OfficeAutomator.Core.Services;
+using OfficeAutomator.Core.Models;
+using OfficeAutomator.Core.Error;
 
 namespace OfficeAutomator.Tests
 {
