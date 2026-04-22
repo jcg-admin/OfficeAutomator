@@ -335,39 +335,50 @@ User Result: ❌
 - ✅ Inventory all documentation
 - ✅ Identify gaps, duplications, inconsistencies
 - ✅ Create risk register
+- ✅ Evaluate OPCIÓN B (flat-by-domain structure) → **VIABLE & RECOMMENDED**
 
 ### Phase 3: DIAGNOSE (Next)
 - Analyze root causes
 - Categorize issues by severity
 - Plan consolidation strategy
+- Deep-dive into design-specification WP bloat (1.2 MB, 49 files)
 
 ### Phase 5: STRATEGY
-- Propose documentation taxonomy
-- Define ownership model
+- **PROPOSE: Adopt OPCIÓN B (Flat Structure by Domain)**
+- Define 15 cajones planos (introduction, requirements, quality-goals, stakeholders, constraints, context-scope, solution-strategy, architecture, crosscutting-concepts, quality-scenarios, risks-technical-debt, glossary, _archive, _methodology, _tools)
+- Define ownership model per cajon
 - Create sync strategy (WPs → docs/)
+- Estimate: 6 hours Phase 10 implementation
 
 ### Phase 8: PLAN EXECUTION
-- Task plan for:
-  - Consolidate duplicates
-  - Update outdated docs
-  - Create missing sections
-  - Archive old WPs
+- Task plan (T-001 through T-010):
+  - Create 9 new cajones
+  - Migrate existing files to OPCIÓN B
+  - Rewrite ARCHITECTURE.md (divide by Layer 0/1/2)
+  - Create glossary, quality-goals, solution-strategy
+  - Create INDEX.md master
+  - Update all internal links
+  - Verify navigation
 
 ### Phase 10: IMPLEMENT
 - Execute task plan
-- Update 12 docs/ files
-- Trim WP documentation
-- Add propagation rules
+- Result: 0 duplications (consolidated via OPCIÓN B)
+- All files migrated to OPCIÓN B structure
+- ARCHITECTURE.md updated with Layer 0/1/2 architecture + subdivisions
+- Phase 12 patterns visible in crosscutting-concepts/
+- All internal links verified
+- INDEX.md navigable in 1-2 clicks
 
 ### Phase 11: TRACK
-- Validate changes
-- User feedback
+- Validate OPCIÓN B structure
+- User feedback on navigation
+- Verify all 5 risks mitigated
 - Lessons learned
 
 ### Phase 12: STANDARDIZE
-- Create documentation guidelines
-- Archive old WP structure
-- Propagate patterns to docs/
+- Document OPCIÓN B as standard for OA
+- Create rule: WP patterns → docs/ via OPCIÓN B
+- Archive old structure guide
 
 ---
 
@@ -389,7 +400,8 @@ User Result: ❌
 ## Artefactos Completados (Phase 1)
 
 ✅ `documentation-audit-analysis.md` (este archivo)  
-✅ `documentation-audit-risk-register.md` (next)  
+✅ `documentation-audit-risk-register.md` (5 identified risks + mitigation)  
+✅ `documentation-structure-option-b-analysis.md` (OPCIÓN B viability assessment)  
 
 ---
 
@@ -415,8 +427,13 @@ User Result: ❌
 - 1 bloated WP (design-specification: 1.2 MB, 49 files)
 - Broken discovery path (README doesn't guide to docs/)
 - WP patterns isolated (Phase 12 patterns don't reach users)
+- **SOLUTION IDENTIFIED:** OPCIÓN B (flat-by-domain structure) → VIABLE & RECOMMENDED
+  - 15 cajones planos (no meta-contenedores)
+  - Resolves all 5 identified risks
+  - 6-hour Phase 10 implementation
+  - Removes all duplications + makes Phase 12 patterns visible
 
-**Confidence:** HIGH (comprehensive inventory + gap analysis)
+**Confidence:** HIGH (comprehensive inventory + gap analysis + solution identified)
 
 ---
 
